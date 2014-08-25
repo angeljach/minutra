@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
+    <h:form id="form">
+        <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
+            <rich:column>
+                <f:facet name="header">Email</f:facet>
+                #{item.email}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">User Name</f:facet>
+                #{item.name}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Job Title</f:facet>
+                #{item.jobTitle}
+            </rich:column>
+        </rich:dataTable>
+    </h:form>
+</html>
