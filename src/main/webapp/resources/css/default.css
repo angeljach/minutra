@@ -1,0 +1,15 @@
+/* 
+    Created on : 28/08/2014, 10:25:05 PM
+    Author     : jach
+*/
+
+root { 
+    display: block;
+}
+
+#wrapper {
+  width: 960px;
+  margin: 0 auto;
+  text-align:left;
+  position:relative;
+}
