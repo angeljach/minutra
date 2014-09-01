@@ -22,11 +22,11 @@ public class MovementsController implements Serializable {
     /**
      * Cayenne Context Object.
      */
-    private ObjectContext context;
+    private final ObjectContext context;
     /**
      * User Object. Holds the information of the current logged user.
      */
-    private Users userObj;
+    private final Users user;
     /**
      * Maximum size of the message.
      */
@@ -36,13 +36,12 @@ public class MovementsController implements Serializable {
      */
     private static final Logger LOGGER = Logger.getLogger(MovementsController.class);
 
-    public MovementsController() {
-        UsrInfoVO usrInfo = (new InfoUsuario()).getUsrInfo();
+    public MovementsController(Users user) {
         LOGGER.trace("Entrando a constructor de Movimientos");
         context = DataContext.getThreadObjectContext();
 
         LOGGER.trace("Obtención del objeto auditor.");
-        userObj = AiDbObjectFromString.getUsersObjectFromString(context, usrInfo.getUserName());
+        this.user = user;
     }
 
     /**
@@ -55,7 +54,7 @@ public class MovementsController implements Serializable {
         LOGGER.trace("Llamado al método registra(mensaje)");
         String newMessage = message;
 
-        if (userObj == null) {
+        if (user == null) {
             LOGGER.error("Error al tratar de crear un registro en la tabla de "
                     + "movimientos, debido a que el usuario con que se trato "
                     + "de realizar no fue encontrado.");
@@ -71,12 +70,12 @@ public class MovementsController implements Serializable {
                 Movements mov = context.newObject(Movements.class);
                 mov.setCreationDate(new Date());
                 mov.setDetail(newMessage);
-                mov.setToUsers(userObj);    //
+                mov.setToUsers(user);    //
 
                 context.commitChanges();
                 LOGGER.info(String.format("Registro creado en la tabla "
                         + "movements_user: [%s][%s]",
-                        userObj.getName(), message));
+                        user.getName(), message));
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
                 LOGGER.error(String.format("Error al tratar de insertar el "

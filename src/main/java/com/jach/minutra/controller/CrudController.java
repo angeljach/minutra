@@ -1,6 +1,5 @@
 package com.jach.minutra.controller;
 
-import com.jach.minutra.model.Movements;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.DeleteDenyException;
@@ -13,7 +12,7 @@ import org.apache.log4j.Logger;
  * @author jach
  */
 public abstract class CrudController {
-    private final MovementsController movement;
+    //private final MovementsController movement;
     private final String objectName;
     private String objectTitle;
     
@@ -28,7 +27,7 @@ public abstract class CrudController {
      */
     public CrudController(String objectName, String objectTitle) {
         context = DataContext.getThreadObjectContext();
-        movement = new MovementsController();
+        //movement = new MovementsController();
         this.objectName = objectName;
         this.objectTitle = objectTitle;
     }
@@ -164,7 +163,7 @@ public abstract class CrudController {
     void createSuccessLogEntry(CrudActions ca, String objectName, String objectTitle) {
         String msg = String.format("%s exitosa del objecto '%s' llamado '%s' en la BD.", 
                 ca.getName(), objectName, objectTitle);
-        movement.save(msg);
+        //movement.save(msg);
         LOGGER.info(msg);
     }
     
@@ -192,7 +191,7 @@ public abstract class CrudController {
      * Return the movement object.
      * @return Movement object.
      */
-    public MovementsController getMovement() { return movement; }
+    //public MovementsController getMovement() { return movement; }
 
     
     public String getObjectTitle() {
