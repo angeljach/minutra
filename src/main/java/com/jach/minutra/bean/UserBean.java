@@ -2,6 +2,7 @@ package com.jach.minutra.bean;
 
 import com.jach.minutra.model.UserModel;
 import com.jach.minutra.model.Users;
+import com.jach.minutra.persistence.Crud;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean(name = "user")
 @ViewScoped
-public class UserBean {
+public class UserBean extends CrudBean implements Crud {
     
     private Users current;
     private List<Users> items;
@@ -22,6 +23,63 @@ public class UserBean {
     private static final Logger LOGGER = Logger.getLogger(UserBean.class);
 
     public UserBean() {
+        super("User");
+        this.init();
+    }
+    
+    @Override
+    protected void executeUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void executeCreate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void executeDestroy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void executeInit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String prepareEdit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String cancelUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String prepareCreate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String create() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String cancelCreate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void destroy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @PostConstruct
@@ -48,6 +106,6 @@ public class UserBean {
     public void setItems(List<Users> items) {
         this.items = items;
     }
-    
+
     
 }
