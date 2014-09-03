@@ -13,3 +13,10 @@ root {
   text-align:left;
   position:relative;
 }
+
+#login {
+  width: 320px;
+  margin: 0 auto;
+  text-align:left;
+  position:relative;
+}

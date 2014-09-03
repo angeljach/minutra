@@ -23,11 +23,8 @@
             .content p{border:1px solid #5382a1;padding:5px;text-align:center;}
         </style>
         
-        <div id="wrapper">
+        <div id="login">
             <h:panelGrid id="headerGrid" columns="1" width="100%" cellpadding="0" cellspacing="0">
-                <div class="content">
-                    <a href="https://java.net/people/login?original_uri=http://weblogs.java.net/blog/mriem/archive/2012/09/01/jsf-tip-1-introduction-jsf-validators">Login</a><a href="https://java.net/people/new">Join Now</a><a href="https://java.net/projects/help/pages/Home" class="last">Help</a>
-                </div>
                 <h:panelGroup>
                     <div id="header">
                         <h2><ui:insert name="head">Minutra</ui:insert></h2>
@@ -38,7 +35,16 @@
                         <ui:insert name="body"/>
                     </div>
                 </h:panelGroup>
-                <h:panelGroup id="bottom">
+                
+            </h:panelGrid>
+        </div>
+        
+        <br />
+        <br />
+        <br />
+        
+        <div id="wrapper">
+            <h:panelGroup id="bottom">
                     <!-- -->
                     <h:panelGrid columns="5" width="100%" columnClasses="tbl20,tbl20,tbl20,tbl20,tbl20">
                         <h:panelGroup>
@@ -79,7 +85,6 @@
                         <h:outputText value="© 2014 | JACH | Todos los derechos reservados" />
                     </h:panelGrid>
                 </h:panelGroup>
-            </h:panelGrid>
         </div>
     </h:body>
 </html>

@@ -11,8 +11,6 @@
         <locale-config>
             <!-- f you define a default locale, you must also define that locale as a supported locale.  -->
             <default-locale>es</default-locale>
-            <supported-locale>es</supported-locale>
-            <supported-locale>en_US</supported-locale>
         </locale-config>
     </application>
 </faces-config>
