@@ -19,6 +19,8 @@ public class UserBean extends CrudBean implements Crud {
     
     private Users current;
     private List<Users> items;
+    
+    private int page = 1;
 
     private static final Logger LOGGER = Logger.getLogger(UserBean.class);
 
@@ -97,6 +99,14 @@ public class UserBean extends CrudBean implements Crud {
 
     public void setCurrent(Users current) {
         this.current = current;
+    }
+    
+    public int getPage() {
+        return page;
+    }
+ 
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public List<Users> getItems() {

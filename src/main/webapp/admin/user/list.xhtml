@@ -7,6 +7,9 @@
     </h:head>
     <h:body>
         <rich:panel>This is a panel without a header</rich:panel>
+        
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        
         <h:form id="frmListUser">
 
             <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
@@ -26,7 +29,125 @@
                     <f:facet name="header">Job Title</f:facet>
                     #{item.jobTitle}
                 </rich:column>
+                
+                <rich:column>
+                    <a4j:commandLink styleClass="no-decor" render="viewGrid" execute="@this"
+                        oncomplete="#{rich:component('viewPane')}.show()">
+                        <h:graphicImage library="images/icons" name="open.gif" alt="view" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
+                        <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
+                    </a4j:commandLink>
+                    <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
+                        oncomplete="#{rich:component('confirmPane')}.show()">
+                        <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
+                    </a4j:commandLink>
+                    <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
+                        oncomplete="#{rich:component('editPane')}.show()">
+                        <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
+                        <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
+                    </a4j:commandLink>
+                </rich:column>
             </rich:dataTable>
+            
+            <a4j:jsFunction name="remove" action="#{user.destroy()}" render="table" execute="@this"
+                oncomplete="#{rich:component('confirmPane')}.hide();" />
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage library="images" name="wait.gif" alt="Wait" />
+                Please wait...
+            </rich:popupPanel>
+
+            <rich:popupPanel id="confirmPane" autosized="true">
+                #{res['table.delete.warning']}
+                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('confirmPane')}.hide(); return false;" />
+                <a4j:commandButton value="#{res['delete']}" onclick="remove(); return false;" />
+            </rich:popupPanel>
+            
+            <rich:popupPanel header="Usuarios" id="viewPane" modal="false" autosized="true" resizeable="false">
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('viewPane')}.hide(); return false;">
+                        X
+                    </h:outputLink>
+                </f:facet>
+                <h:panelGrid columns="2" id="viewGrid">
+                    <h:outputLabel value="User Name" />
+                    <h:outputText value="#{user.current.userName}" />
+                    <h:outputLabel value="Email" />
+                    <h:outputText value="#{user.current.email}" />
+                    <h:outputLabel value="Full Name" />
+                    <h:outputText value="#{user.current.fullName}" />
+                    <h:outputLabel value="Job Title" />
+                    <h:outputText value="#{user.current.jobTitle}" />
+                    <h:outputLabel value="Enable" />
+                    <h:outputText value="#{user.current.isEnabled ? 'Yes' : 'No'}" />
+                    <h:outputLabel value="Creation Date" />
+                    <h:outputText value="#{user.current.creationDate}" >
+                        <f:convertDateTime pattern="dd/MM/yy hh:mm:ss" timeZone="America/Mexico_City" />
+                    </h:outputText>
+                    <h:outputLabel value="Modif. Date" />
+                    <h:outputText value="#{user.current.modificationDate}" >
+                        <f:convertDateTime pattern="dd/MM/yy hh:mm:ss" timeZone="America/Mexico_City" />
+                    </h:outputText>
+                </h:panelGrid>
+            </rich:popupPanel>
+            
+            <rich:popupPanel header="Editar Usuarios" id="editPane" domElementAttachment="parent" width="400" height="220">
+                <h:panelGrid columns="3" id="editGrid">
+                    <h:outputLabel value="User Name" />
+                    <h:outputText value="#{user.current.userName}" />
+                    <h:panelGroup />
+                    
+                    <h:outputLabel value="Email" />
+                    <h:inputText value="#{user.current.email}" />
+                    <h:panelGroup />
+                    
+                    <h:outputLabel value="Full Name" />
+                    <h:inputText value="#{user.current.fullName}" />
+                    <h:panelGroup />
+                    
+                    <h:outputLabel value="Job Title" />
+                    <h:inputText value="#{user.current.jobTitle}" />
+                    <h:panelGroup />
+                    
+                    <h:outputLabel value="Enable" />
+                    <h:selectBooleanCheckbox value="#{user.current.isEnabled}" />
+                    <h:panelGroup />
+                </h:panelGrid>
+                <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
+                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" />
+                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide(); return false;" />
+            </rich:popupPanel>
+            
+            <!--
+                    <h:outputText value="Price" />
+                    <h:inputText id="price" value="# {carsBean.editedCar.price}" required="true" requiredMessage="Price is required"
+                        converterMessage="Should be a valid price" validatorMessage="Should be a valid price" label="Price field">
+                        <f:validateDoubleRange minimum="0.00" maximum="99999999"/>
+                    </h:inputText>
+                    <rich:message id="priceMsg" for="price" />
+                    
+                    <h:outputText value="Mileage" />
+                    <h:inputText value="# {carsBean.editedCar.mileage}" id="mage" converterMessage="Should be a valid mileage"
+                        validatorMessage="Should be a valid mileage" label="Mileage field">
+                        <f:validateDoubleRange minimum="0.00" maximum="99999999.00" />
+                    </h:inputText>
+                    <rich:message id="madeMsg" for="mage" />
+                    
+                    <h:outputText value="VIN" />
+                    <h:inputText value="# {carsBean.editedCar.vin}" id="vin" required="true"
+                        validatorMessage="Not a valid 17-digit VIN" converterMessage="Not a valid 17-digit VIN"
+                        requiredMessage="VIN is required">
+                        <f:validateLength minimum="17" maximum="17" />
+                    </h:inputText>
+                    <rich:message id="vinMsg" for="vin" />
+            
+            -->
+            
+            
+            
+            
         </h:form>
     </h:body>
         
