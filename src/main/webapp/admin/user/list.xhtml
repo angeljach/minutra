@@ -7,16 +7,20 @@
     </h:head>
     <h:body>
         <rich:panel>This is a panel without a header</rich:panel>
-        <h:form id="form">
+        <h:form id="frmListUser">
 
             <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
                 <rich:column>
-                    <f:facet name="header">Email</f:facet>
-                    #{item.email}
+                    <f:facet name="header">User Name</f:facet>
+                    #{item.userName}
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">User Name</f:facet>
-                    #{item.name}
+                    <f:facet name="header">Full Name</f:facet>
+                    #{item.fullName}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Email</f:facet>
+                    #{item.email}
                 </rich:column>
                 <rich:column>
                     <f:facet name="header">Job Title</f:facet>

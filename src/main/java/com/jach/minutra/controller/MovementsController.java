@@ -75,7 +75,7 @@ public class MovementsController implements Serializable {
                 context.commitChanges();
                 LOGGER.info(String.format("Registro creado en la tabla "
                         + "movements_user: [%s][%s]",
-                        user.getName(), message));
+                        user.getUserName(), message));
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
                 LOGGER.error(String.format("Error al tratar de insertar el "

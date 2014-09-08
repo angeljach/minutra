@@ -54,7 +54,7 @@ public class LoginBean implements Serializable {
         
         MovementsController mov = new MovementsController(user);
 
-        msg = String.format("Inicio de sesión validado. Otorgando acceso al usuario [%s][%s]", user.getEmail(), user.getName());
+        msg = String.format("Inicio de sesión validado. Otorgando acceso al usuario [%s][%s]", user.getEmail(), user.getUserName());
         LOGGER.info(msg);
         mov.save(msg);
 
