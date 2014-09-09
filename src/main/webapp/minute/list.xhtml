@@ -110,6 +110,27 @@
                     <h:outputText value="#{minute.current.agenda}" escape="false" />
                     <h:outputLabel value="#{res['minute.detail']}" />
                     <h:outputText value="#{minute.current.detail}" escape="false" />
+                    <h:outputLabel value="#{res['minute.users']}" />
+                    <rich:dataTable value="#{minute.current.minuteMembersArray}" var="user">
+                        <rich:column>
+                            #{user.toUsers.fullName}
+                        </rich:column>
+                    </rich:dataTable>
+                    <h:outputLabel value="#{res['minute.documents']}" />
+                    <rich:dataTable value="#{minute.current.minuteDocumentsArray}" var="doc">
+                        <rich:column>
+                            #{doc.name}
+                        </rich:column>
+                    </rich:dataTable>
+                    <h:outputLabel value="#{res['minute.tasks']}" />
+                    <rich:dataTable value="#{minute.current.minuteTasksArray}" var="task">
+                        <rich:column>
+                            #{task.detail}
+                        </rich:column>
+                    </rich:dataTable>
+                    
+                    
+                    
                     <h:outputLabel value="#{res['creationDate']}" />
                     <h:outputText value="#{minute.current.creationDate}" >
                         <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
