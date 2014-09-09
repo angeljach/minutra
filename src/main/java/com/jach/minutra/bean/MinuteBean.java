@@ -1,8 +1,10 @@
 package com.jach.minutra.bean;
 
+import com.jach.minutra.model.MinuteModel;
 import com.jach.minutra.model.Minutes;
 import com.jach.minutra.persistence.Crud;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
@@ -24,7 +26,14 @@ public class MinuteBean extends CrudBean implements Crud {
 
     public MinuteBean() {
         super("Minuta");
-        this.init();
+        //this.init();
+    }
+    
+    @PostConstruct
+    private void init() {
+        LOGGER.trace("Getting minutes from PostConstruct");
+        MinuteModel userM = new MinuteModel();
+        this.items = userM.getMinuteList();
     }
     
     @Override
@@ -82,12 +91,6 @@ public class MinuteBean extends CrudBean implements Crud {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @PostConstruct
-    private void init() {
-        LOGGER.trace("Getting minutes from PostConstruct");
-        MinuteModel userM = new MinuteModel();
-        this.items = userM.getMinuteList();
-    }
     
     //---|| Getters and Setters
     public Minutes getCurrent() {

@@ -26,7 +26,14 @@ public class UserBean extends CrudBean implements Crud {
 
     public UserBean() {
         super("User");
-        this.init();
+        //this.init();
+    }
+    
+    @PostConstruct
+    private void init() {
+        LOGGER.trace("Getting users from PostConstruct");
+        UserModel userM = new UserModel();
+        this.items = userM.getUserList();
     }
     
     @Override
@@ -84,15 +91,9 @@ public class UserBean extends CrudBean implements Crud {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @PostConstruct
-    private void init() {
-        LOGGER.trace("Getting users from PostConstruct");
-        UserModel userM = new UserModel();
-        this.items = userM.getUserList();
-    }
-
     
-    //---|| Getters and Setters
+
+//---|| Getters and Setters
     public Users getCurrent() {
         return current;
     }
