@@ -40,18 +40,24 @@
                     </rich:column>
 
                     <rich:column>
-                        <a4j:commandLink styleClass="no-decor" render="viewGrid" execute="@this"
-                            oncomplete="#{rich:component('viewPane')}.show()">
+                        <a4j:commandLink styleClass="no-decor" render="viewGrid" 
+                                         execute="@this" 
+                                         oncomplete="#{rich:component('viewPane')}.show()">
                             <h:graphicImage library="images/icons" name="open.gif" alt="view" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
                             <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
+                            <f:setPropertyActionListener value="false" target="#{user.edit}" />
+                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
                         </a4j:commandLink>
-                        <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
-                            oncomplete="#{rich:component('editPane')}.show()">
+                        
+                        <a4j:commandLink styleClass="no-decor" render="viewGrid"
+                                         execute="@this" action="#{user.prepareEdit()}" 
+                                         oncomplete="#{rich:component('viewPane')}.show()">
                             <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
                             <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
+                            <f:setPropertyActionListener value="true" target="#{user.edit}" />
+                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
                         </a4j:commandLink>
+                        
                         <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
                             oncomplete="#{rich:component('confirmPane')}.show()">
                             <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
@@ -77,60 +83,84 @@
                 <a4j:commandButton value="#{res['delete']}" onclick="remove(); return false;" />
             </rich:popupPanel>
             
-            <rich:popupPanel header="Usuarios" id="viewPane" modal="false" autosized="true" resizeable="false">
+            <rich:popupPanel header="Detalle del Usuario" id="viewPane" modal="false" autosized="true" resizeable="false">
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('viewPane')}.hide(); return false;">
                         X
                     </h:outputLink>
                 </f:facet>
-                <h:panelGrid columns="2" id="viewGrid">
+                <h:panelGrid columns="3" id="viewGrid">
                     <h:outputLabel value="#{res['user.userName']}" />
                     <h:outputText value="#{user.current.userName}" />
+                    <h:panelGroup />
+                    
                     <h:outputLabel value="#{res['user.email']}" />
-                    <h:outputText value="#{user.current.email}" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.email}" rendered="#{!user.edit}"/>
+                        <h:inputText id="email" value="#{user.current.email}" 
+                                     required="true" rendered="#{user.edit}" 
+                                     validatorMessage="Debe ser una cadena entre 1 y 100 caracteres" 
+                                     converterMessage="Debe ser una cadena entre 1 y 100 caracteres"
+                                     requiredMessage="Email requerido">
+                            <f:validateLength minimum="1" maximum="100" />
+                        </h:inputText>
+                    </h:panelGroup>
+                    <rich:message id="emailMsg" for="email" />
+                    
                     <h:outputLabel value="#{res['user.fullName']}" />
-                    <h:outputText value="#{user.current.fullName}" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.fullName}" rendered="#{!user.edit}"/>
+                        <h:inputText id="fullName" value="#{user.current.fullName}" 
+                                     required="true" rendered="#{user.edit}"
+                                     validatorMessage="Debe ser una cadena entre 1 y 100 caracteres" 
+                                     converterMessage="Debe ser una cadena entre 1 y 100 caracteres"
+                                     requiredMessage="Nombre Completo requerido">
+                            <f:validateLength minimum="1" maximum="100" />
+                        </h:inputText>
+                    </h:panelGroup>
+                    <rich:message id="fullNameMsg" for="fullName" />
+                    
                     <h:outputLabel value="#{res['user.jobTitle']}" />
-                    <h:outputText value="#{user.current.jobTitle}" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.jobTitle}" rendered="#{!user.edit}"/>
+                        <h:inputText value="#{user.current.jobTitle}" rendered="#{user.edit}"/>
+                    </h:panelGroup>
+                    <h:panelGroup />
+                    
                     <h:outputLabel value="#{res['user.enable']}" />
-                    <h:outputText value="#{user.current.isEnabled ? 'Yes' : 'No'}" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.isEnabled ? 'Si' : 'No'}" rendered="#{!user.edit}"/>
+                        <h:selectBooleanCheckbox value="#{user.current.isEnabled}" rendered="#{user.edit}"/>
+                    </h:panelGroup>
+                    <h:panelGroup />
+                    
                     <h:outputLabel value="#{res['creationDate']}" />
                     <h:outputText value="#{user.current.creationDate}" >
                         <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
                     </h:outputText>
+                    <h:panelGroup />
+                    
                     <h:outputLabel value="#{res['modificationDate']}" />
                     <h:outputText value="#{user.current.modificationDate}" >
                         <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
                     </h:outputText>
+                    <h:panelGroup />
+                    
+                    <h:panelGroup />
+                    <h:panelGroup>
+                        <a4j:commandButton value="#{res['update']}" action="#{user.update()}" 
+                                           render="table" execute="viewPane"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('viewPane')}.hide();}" 
+                                           rendered="#{user.edit}"/>
+                        <a4j:commandButton value="#{res['cancel']}"
+                                           onclick="#{rich:component('viewPane')}.hide(); return false;" 
+                                           rendered="#{user.edit}"/>
+                    </h:panelGroup>
+                    
                 </h:panelGrid>
+                        
             </rich:popupPanel>
             
-            <rich:popupPanel header="Editar Usuarios" id="editPane" domElementAttachment="parent" width="400" height="220">
-                <h:panelGrid columns="3" id="editGrid">
-                    <h:outputLabel value="#{res['user.userName']}" />
-                    <h:outputText value="#{user.current.userName}" />
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['user.email']}" />
-                    <h:inputText value="#{user.current.email}" />
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['user.fullName']}" />
-                    <h:inputText value="#{user.current.fullName}" />
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['user.jobTitle']}" />
-                    <h:inputText value="#{user.current.jobTitle}" />
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['user.enable']}" />
-                    <h:selectBooleanCheckbox value="#{user.current.isEnabled}" />
-                    <h:panelGroup />
-                </h:panelGrid>
-                <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
-                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" />
-                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide(); return false;" />
-            </rich:popupPanel>
             
             <!--
                     <h:outputText value="Price" />

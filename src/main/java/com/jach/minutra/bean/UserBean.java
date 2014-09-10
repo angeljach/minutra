@@ -21,58 +21,76 @@ public class UserBean extends CrudBean implements Crud {
     private Users current;
     private List<Users> items;
     
+    private final UserModel modelUser = new UserModel();
+    
+    private boolean edit;
+    
     private static final Logger LOGGER = Logger.getLogger(UserBean.class);
 
     public UserBean() {
         super("User");
         //this.init();
+        edit = false;
     }
     
     @PostConstruct
     private void init() {
         LOGGER.trace("Getting users from PostConstruct");
-        UserModel userM = new UserModel();
-        this.items = userM.getUserList();
+        this.items = modelUser.getUserList();
     }
     
     @Override
-    protected void executeUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void executeCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public String prepareEdit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Inicialización de listas
+        
+        
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        //edit = true;
+        return null;
     }
 
     @Override
     public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        updateElement();
+        return null;
+    }
+    
+    @Override
+    protected void executeUpdate() {
+        (new UserController(current)).update();
     }
 
     @Override
     public String cancelUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        return null;
     }
 
     @Override
     public String prepareCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        current = new Users();
+        //edit = false;
+        return null;
     }
 
     @Override
     public String create() {
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        createElement();
+        return null;
+    }
+    
+    @Override
+    protected void executeCreate() {
         (new UserController(current)).create();
     }
 
     @Override
     public String cancelCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO El método debe ser void si no quiero navegar a otra página.
+        return null;
     }
 
     @Override
@@ -108,6 +126,14 @@ public class UserBean extends CrudBean implements Crud {
 
     public void setItems(List<Users> items) {
         this.items = items;
+    }
+    
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
     }
 
     
