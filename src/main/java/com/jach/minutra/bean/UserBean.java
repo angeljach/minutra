@@ -1,5 +1,6 @@
 package com.jach.minutra.bean;
 
+import com.jach.minutra.controller.UserController;
 import com.jach.minutra.model.UserModel;
 import com.jach.minutra.model.Users;
 import com.jach.minutra.persistence.Crud;
@@ -20,8 +21,6 @@ public class UserBean extends CrudBean implements Crud {
     private Users current;
     private List<Users> items;
     
-    private int page = 1;
-
     private static final Logger LOGGER = Logger.getLogger(UserBean.class);
 
     public UserBean() {
@@ -47,16 +46,6 @@ public class UserBean extends CrudBean implements Crud {
     }
 
     @Override
-    protected void executeDestroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void executeInit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public String prepareEdit() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -78,7 +67,7 @@ public class UserBean extends CrudBean implements Crud {
 
     @Override
     public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        (new UserController(current)).create();
     }
 
     @Override
@@ -88,8 +77,19 @@ public class UserBean extends CrudBean implements Crud {
 
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        destroyElement();
     }
+    
+    @Override
+    protected void executeDestroy() {
+        (new UserController(current)).delete();
+    }
+    
+    @Override
+    protected void executeInit() {
+        this.init();
+    }
+    
     
     
 
@@ -102,14 +102,6 @@ public class UserBean extends CrudBean implements Crud {
         this.current = current;
     }
     
-    public int getPage() {
-        return page;
-    }
- 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     public List<Users> getItems() {
         return items;
     }

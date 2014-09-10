@@ -16,7 +16,6 @@ public class UserController extends CrudController {
     private Map<Key, Object> parameters;
     
     private enum Key {
-        MODIFICATION_DATE
     }
     
     public UserController(Users user) {
@@ -24,30 +23,33 @@ public class UserController extends CrudController {
         this.user = user;
     }
     
-    public void create(String userRole) throws CayenneRuntimeException {
+    public void create() throws CayenneRuntimeException {
         parameters = new HashMap<>();
+        
+        user.setCreationDate(new Date());
+        user.setModificationDate(new Date());
+        
         //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));
-        parameters.put(Key.MODIFICATION_DATE, (new Date()));
 
         createObject(user, false);
     }
     
-    public void update(String userRole) throws IllegalArgumentException, CayenneRuntimeException {
+    public void update() throws IllegalArgumentException, CayenneRuntimeException {
         parameters = new HashMap<>();
-        //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));
-        parameters.put(Key.MODIFICATION_DATE, (new Date()));
         
+        user.setModificationDate(new Date());
+        
+        //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));        
         updateObject(user);
     }
     
     public void delete() throws IllegalArgumentException, DeleteDenyException {
         //TODO Implementar funcionalidad dadas las implicaciones a considerar.
-        //deleteObject(user);
+        deleteObject(user);
     }
     
     @Override
     protected void createEntry() {
         //user.setToUserRoles((UserRoles) parameters.get(Key.USER_ROLE));
-        user.setModificationDate((Date) parameters.get(Key.MODIFICATION_DATE));
     }
 }
