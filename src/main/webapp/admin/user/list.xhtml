@@ -38,21 +38,24 @@
                         <f:facet name="header">#{res['user.jobTitle']}</f:facet>
                         #{item.jobTitle}
                     </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{res['user.enable']}</f:facet>
+                        #{item.isEnabled ? 'Si' : 'No'}
+                    </rich:column>
 
                     <rich:column>
                         <a4j:commandLink styleClass="no-decor" render="viewGrid" 
                                          execute="@this" 
                                          oncomplete="#{rich:component('viewPane')}.show()">
-                            <h:graphicImage library="images/icons" name="open.gif" alt="view" />
+                            <h:graphicImage library="images/icons" name="open.gif" alt="ver" />
                             <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
                             <f:setPropertyActionListener value="false" target="#{user.edit}" />
                             <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
                         </a4j:commandLink>
                         
                         <a4j:commandLink styleClass="no-decor" render="viewGrid"
-                                         execute="@this" action="#{user.prepareEdit()}" 
-                                         oncomplete="#{rich:component('viewPane')}.show()">
-                            <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
+                                         execute="@this" oncomplete="#{rich:component('viewPane')}.show()">
+                            <h:graphicImage library="images/icons" name="edit.gif" alt="editar" />
                             <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
                             <f:setPropertyActionListener value="true" target="#{user.edit}" />
                             <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
@@ -148,7 +151,7 @@
                     
                     <h:panelGroup />
                     <h:panelGroup>
-                        <a4j:commandButton value="#{res['update']}" action="#{user.update()}" 
+                        <a4j:commandButton value="#{res['update']}" action="#{user.updateVoidTest}" 
                                            render="table" execute="viewPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('viewPane')}.hide();}" 
                                            rendered="#{user.edit}"/>

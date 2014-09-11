@@ -4,6 +4,7 @@ import com.jach.minutra.controller.UserController;
 import com.jach.minutra.model.UserModel;
 import com.jach.minutra.model.Users;
 import com.jach.minutra.persistence.Crud;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean(name = "user")
 @ViewScoped
-public class UserBean extends CrudBean implements Crud {
+public class UserBean extends CrudBean implements Crud, Serializable {
     
     private Users current;
     private List<Users> items;
@@ -55,6 +56,10 @@ public class UserBean extends CrudBean implements Crud {
         //TODO El método debe ser void si no quiero navegar a otra página.
         updateElement();
         return null;
+    }
+    
+    public void updateVoidTest() {
+        (new UserController(current)).update();
     }
     
     @Override
