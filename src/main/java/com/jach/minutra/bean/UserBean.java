@@ -20,6 +20,7 @@ public class UserBean extends CrudBean implements Crud {
     
     private Users current;
     private List<Users> items;
+    private int page = 1;
     
     private final UserModel modelUser = new UserModel();
     
@@ -126,6 +127,14 @@ public class UserBean extends CrudBean implements Crud {
 
     public void setItems(List<Users> items) {
         this.items = items;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
     
     public boolean isEdit() {
