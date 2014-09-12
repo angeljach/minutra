@@ -86,7 +86,8 @@
                 <a4j:commandButton value="#{res['delete']}" onclick="remove(); return false;" />
             </rich:popupPanel>
             
-            <rich:popupPanel header="Detalle del Usuario" id="viewPane" modal="false" autosized="true" resizeable="false">
+            <rich:popupPanel header="Detalle del Usuario" id="viewPane" 
+                             domElementAttachment="parent" autosized="true" >
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('viewPane')}.hide(); return false;">
                         X

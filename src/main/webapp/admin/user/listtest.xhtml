@@ -20,31 +20,31 @@
                         #{it.index}
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">Vendor</f:facet>
+                    <f:facet name="header">Usuario</f:facet>
                     <h:outputText value="#{car.userName}" />
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">Model</f:facet>
+                    <f:facet name="header">Correo</f:facet>
                     <h:outputText value="#{car.email}" />
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">Price</f:facet>
+                    <f:facet name="header">Nombre Completo</f:facet>
                     <h:outputText value="#{car.fullName}" />
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">Mileage</f:facet>
+                    <f:facet name="header">Título</f:facet>
                     <h:outputText value="#{car.jobTitle}" />
                 </rich:column>
                 <rich:column>
                     <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
                                      oncomplete="#{rich:component('confirmPane')}.show()">
                         <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
-                        <a4j:param value="#{it.index}" assignTo="#{userTest.currentCarIndex}" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
                                      oncomplete="#{rich:component('editPane')}.show()">
                         <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
-                        <a4j:param value="#{it.index}" assignTo="#{userTest.currentCarIndex}" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
                         <f:setPropertyActionListener target="#{userTest.editedCar}" value="#{car}" />
                     </a4j:commandLink>
                 </rich:column>
@@ -69,19 +69,19 @@
                         return false;" />
             </rich:popupPanel>
 
-            <rich:popupPanel header="Edit Car Details" id="editPane" 
+            <rich:popupPanel header="Editar Detalle de Usuario" id="editPane" 
                              domElementAttachment="parent" width="400" height="170">
                 <h:panelGrid columns="3" id="editGrid">
-                    <h:outputText value="Vendor" />
+                    <h:outputText value="Usuario" />
                     <h:outputText value="#{userTest.editedCar.userName}" />
                     <h:panelGroup />
-                    <h:outputText value="Model" />
+                    <h:outputText value="Correo" />
                     <h:outputText value="#{userTest.editedCar.email}" />
                     <h:panelGroup />
-                    <h:outputText value="Price" />
+                    <h:outputText value="Nombre Completo" />
                     <h:inputText value="#{userTest.editedCar.fullName}" />
                     <h:panelGroup />
-                    <h:outputText value="Mileage" />
+                    <h:outputText value="Título" />
                     <h:inputText value="#{userTest.editedCar.jobTitle}" />
                     <h:panelGroup />
                 </h:panelGrid>
