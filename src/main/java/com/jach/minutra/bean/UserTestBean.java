@@ -20,7 +20,7 @@ public class UserTestBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
-    private List<Users> allInventoryItems = null;
+    private List<Users> items = null;
     
     private int currentCarIndex;
     private Users editedCar;
@@ -43,14 +43,14 @@ public class UserTestBean implements Serializable {
 
     public void store() {
         (new UserController(editedCar)).update();
-        this.allInventoryItems = modelUser.getUserList();
+        this.items = modelUser.getUserList();
     }
     
-    public List<Users> getAllInventoryItems() {
+    public List<Users> getItems() {
         synchronized (this) {
-            this.allInventoryItems = modelUser.getUserList();
+            this.items = modelUser.getUserList();
         }
-        return allInventoryItems;
+        return items;
     }
 
 

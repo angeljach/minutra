@@ -6,195 +6,97 @@
         Administración de Usuarios
     </h:head>
     <h:body>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        
+
         <h:outputStylesheet>
-            .rf-dt{
-            //width:400px;
-            }
-            .acent{
-            text-align: center;
+            a.no-decor>img {
+            border: none;
             }
         </h:outputStylesheet>
-        
-        <h:form id="frmListUser">
-            <h:panelGrid columnClasses="acent">
-                <rich:dataScroller for="table" maxPages="5" />
-                <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" 
-                                id="table" rows="15" style="text-align: left;">
-                    <rich:column>
-                        <f:facet name="header">#{res['user.userName']}</f:facet>
-                        #{item.userName}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['user.email']}</f:facet>
-                        #{item.email}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['user.fullName']}</f:facet>
-                        #{item.fullName}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['user.jobTitle']}</f:facet>
-                        #{item.jobTitle}
-                    </rich:column>
-                    <rich:column>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <h:form id="form">
+            <rich:dataTable value="#{userTest.items}" var="car" iterationStatusVar="it" id="table" rows="15">
+                <rich:column>
+                    <f:facet name="header">#</f:facet>
+                        #{it.index}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['user.userName']}</f:facet>
+                    <h:outputText value="#{car.userName}" />
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['user.email']}</f:facet>
+                    <h:outputText value="#{car.email}" />
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['user.fullName']}</f:facet>
+                    <h:outputText value="#{car.fullName}" />
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['user.jobTitle']}</f:facet>
+                    <h:outputText value="#{car.jobTitle}" />
+                </rich:column>
+                <rich:column>
                         <f:facet name="header">#{res['user.enable']}</f:facet>
-                        #{item.isEnabled ? 'Si' : 'No'}
+                        #{car.isEnabled ? 'Si' : 'No'}
                     </rich:column>
+                <rich:column>
+                    <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
+                                     oncomplete="#{rich:component('confirmPane')}.show()">
+                        <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
+                    </a4j:commandLink>
+                    <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
+                                     oncomplete="#{rich:component('editPane')}.show()">
+                        <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
+                        <f:setPropertyActionListener target="#{userTest.editedCar}" value="#{car}" />
+                    </a4j:commandLink>
+                </rich:column>
+                <f:facet name="footer">
+                    <rich:dataScroller page="#{userTest.page}" />
+                </f:facet>
+            </rich:dataTable>
 
-                    <rich:column>
-                        <a4j:commandLink styleClass="no-decor" render="viewGrid" 
-                                         execute="@this" 
-                                         oncomplete="#{rich:component('viewPane')}.show()">
-                            <h:graphicImage library="images/icons" name="open.gif" alt="ver" />
-                            <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
-                            <f:setPropertyActionListener value="false" target="#{user.edit}" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                        </a4j:commandLink>
-                        
-                        <a4j:commandLink styleClass="no-decor" render="viewGrid"
-                                         execute="@this" oncomplete="#{rich:component('viewPane')}.show()">
-                            <h:graphicImage library="images/icons" name="edit.gif" alt="editar" />
-                            <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
-                            <f:setPropertyActionListener value="true" target="#{user.edit}" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                        </a4j:commandLink>
-                        
-                        <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
-                            oncomplete="#{rich:component('confirmPane')}.show()">
-                            <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                        </a4j:commandLink>
-                    </rich:column>
-                </rich:dataTable>
-                <rich:dataScroller for="table" maxPages="5" />
-            </h:panelGrid>
-                
-            
-            <a4j:jsFunction name="remove" action="#{user.destroy()}" render="table" execute="@this"
-                oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <a4j:jsFunction name="remove" action="#{userTest.remove}" render="table" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
 
             <rich:popupPanel id="statPane" autosized="true">
-                <h:graphicImage library="images" name="wait.gif" alt="Wait" />
-                #{res['wait']}
+                <h:graphicImage library="images" name="wait.gif" alt="ai" />
+                Please wait...
             </rich:popupPanel>
 
             <rich:popupPanel id="confirmPane" autosized="true">
-                #{res['table.delete.warning']}
-                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('confirmPane')}.hide(); return false;" />
-                <a4j:commandButton value="#{res['delete']}" onclick="remove(); return false;" />
+                Are you sure you want to delete the row?
+                <a4j:commandButton value="Cancel" onclick="#{rich:component('confirmPane')}.hide();
+                        return false;" />
+                <a4j:commandButton value="Delete" onclick="remove();
+                        return false;" />
             </rich:popupPanel>
-            
-            <rich:popupPanel header="Detalle del Usuario" id="viewPane" 
-                             domElementAttachment="parent" autosized="true" >
-                <f:facet name="controls">
-                    <h:outputLink value="#" onclick="#{rich:component('viewPane')}.hide(); return false;">
-                        X
-                    </h:outputLink>
-                </f:facet>
-                <h:panelGrid columns="3" id="viewGrid">
+
+            <rich:popupPanel header="Editar Detalle de Usuario" id="editPane" 
+                             domElementAttachment="parent" width="400" height="170">
+                <h:panelGrid columns="3" id="editGrid">
                     <h:outputLabel value="#{res['user.userName']}" />
-                    <h:outputText value="#{user.current.userName}" />
+                    <h:outputText value="#{userTest.editedCar.userName}" />
                     <h:panelGroup />
-                    
                     <h:outputLabel value="#{res['user.email']}" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.email}" rendered="#{!user.edit}"/>
-                        <h:inputText id="email" value="#{user.current.email}" 
-                                     required="true" rendered="#{user.edit}" 
-                                     validatorMessage="Debe ser una cadena entre 1 y 100 caracteres" 
-                                     converterMessage="Debe ser una cadena entre 1 y 100 caracteres"
-                                     requiredMessage="Email requerido">
-                            <f:validateLength minimum="1" maximum="100" />
-                        </h:inputText>
-                    </h:panelGroup>
-                    <rich:message id="emailMsg" for="email" />
-                    
+                    <h:outputText value="#{userTest.editedCar.email}" />
+                    <h:panelGroup />
                     <h:outputLabel value="#{res['user.fullName']}" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.fullName}" rendered="#{!user.edit}"/>
-                        <h:inputText id="fullName" value="#{user.current.fullName}" 
-                                     required="true" rendered="#{user.edit}"
-                                     validatorMessage="Debe ser una cadena entre 1 y 100 caracteres" 
-                                     converterMessage="Debe ser una cadena entre 1 y 100 caracteres"
-                                     requiredMessage="Nombre Completo requerido">
-                            <f:validateLength minimum="1" maximum="100" />
-                        </h:inputText>
-                    </h:panelGroup>
-                    <rich:message id="fullNameMsg" for="fullName" />
-                    
+                    <h:inputText value="#{userTest.editedCar.fullName}" />
+                    <h:panelGroup />
                     <h:outputLabel value="#{res['user.jobTitle']}" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.jobTitle}" rendered="#{!user.edit}"/>
-                        <h:inputText value="#{user.current.jobTitle}" rendered="#{user.edit}"/>
-                    </h:panelGroup>
+                    <h:inputText value="#{userTest.editedCar.jobTitle}" />
                     <h:panelGroup />
-                    
                     <h:outputLabel value="#{res['user.enable']}" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.isEnabled ? 'Si' : 'No'}" rendered="#{!user.edit}"/>
-                        <h:selectBooleanCheckbox value="#{user.current.isEnabled}" rendered="#{user.edit}"/>
-                    </h:panelGroup>
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['creationDate']}" />
-                    <h:outputText value="#{user.current.creationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-                    
-                    <h:outputLabel value="#{res['modificationDate']}" />
-                    <h:outputText value="#{user.current.modificationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-                    
-                    <h:panelGroup />
-                    <h:panelGroup>
-                        <a4j:commandButton value="#{res['update']}" action="#{user.updateVoidTest}" 
-                                           render="table" execute="viewPane"
-                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('viewPane')}.hide();}" 
-                                           rendered="#{user.edit}"/>
-                        <a4j:commandButton value="#{res['cancel']}"
-                                           onclick="#{rich:component('viewPane')}.hide(); return false;" 
-                                           rendered="#{user.edit}"/>
-                    </h:panelGroup>
-                    
+                    <h:selectBooleanCheckbox value="#{userTest.editedCar.isEnabled}" />
                 </h:panelGrid>
-                        
+                <a4j:commandButton value="Store" action="#{userTest.store}" render="table" execute="editPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" />
+                <a4j:commandButton value="Cancel" onclick="#{rich:component('editPane')}.hide();
+                        return false;" />
             </rich:popupPanel>
-            
-            
-            <!--
-                    <h:outputText value="Price" />
-                    <h:inputText id="price" value="# {carsBean.editedCar.price}" required="true" requiredMessage="Price is required"
-                        converterMessage="Should be a valid price" validatorMessage="Should be a valid price" label="Price field">
-                        <f:validateDoubleRange minimum="0.00" maximum="99999999"/>
-                    </h:inputText>
-                    <rich:message id="priceMsg" for="price" />
-                    
-                    <h:outputText value="Mileage" />
-                    <h:inputText value="# {carsBean.editedCar.mileage}" id="mage" converterMessage="Should be a valid mileage"
-                        validatorMessage="Should be a valid mileage" label="Mileage field">
-                        <f:validateDoubleRange minimum="0.00" maximum="99999999.00" />
-                    </h:inputText>
-                    <rich:message id="madeMsg" for="mage" />
-                    
-                    <h:outputText value="VIN" />
-                    <h:inputText value="# {carsBean.editedCar.vin}" id="vin" required="true"
-                        validatorMessage="Not a valid 17-digit VIN" converterMessage="Not a valid 17-digit VIN"
-                        requiredMessage="VIN is required">
-                        <f:validateLength minimum="17" maximum="17" />
-                    </h:inputText>
-                    <rich:message id="vinMsg" for="vin" />
-            
-            -->
-            
-            
-            
-            
         </h:form>
     </h:body>
-        
+
 </html>
