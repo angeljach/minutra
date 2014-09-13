@@ -33,12 +33,20 @@ public class UserTestBean implements Serializable {
     public void switchAjaxLoading(ValueChangeEvent event) {
         this.clientRows = (Boolean) event.getNewValue() ? CLIENT_ROWS_IN_AJAX_MODE : 0;
     }
+    
+    public void prepareCreate() {
+        current = new Users();
+    }
+    
+    public void create() {
+        (new UserController(current)).create();
+    }
 
     public void remove() {
         (new UserController(current)).delete();
     }
 
-    public void store() {
+    public void update() {
         (new UserController(current)).update();
         this.items = modelUser.getUserList();
     }

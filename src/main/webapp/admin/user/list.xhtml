@@ -18,7 +18,11 @@
         <h:form id="form">
             <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
                 <f:facet name="header">
-                    NUEVO []
+                    <a4j:commandLink styleClass="no-decor" render="newGrid" execute="@this"
+                                     action="#{user.prepareCreate()}"
+                                     oncomplete="#{rich:component('newPane')}.show()">
+                        <h:graphicImage library="images/icons" name="create_doc.gif" alt="Nuevo" />
+                    </a4j:commandLink>
                 </f:facet>
                 <rich:column rendered="false">
                     <f:facet name="header">#</f:facet>
@@ -87,7 +91,39 @@
                         return false;" />
             </rich:popupPanel>
 
-            <rich:popupPanel header="Editar Detalle de Usuario" id="editPane" 
+            <rich:popupPanel header="Nuevo Usuario" id="newPane" 
+                             domElementAttachment="parent" autosized="true" >
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('newPane')}.hide(); return false;">
+                        X
+                    </h:outputLink>
+                </f:facet>
+                <h:panelGrid columns="2" id="newGrid">
+                    <h:outputLabel value="#{res['user.userName']}" />
+                    <h:inputText id="newUserName" value="#{user.current.userName}" />
+                    
+                    <h:outputLabel value="#{res['user.email']}" />
+                    <h:inputText id="newEmail" value="#{user.current.email}" />
+                    
+                    <h:outputLabel value="#{res['user.fullName']}" />
+                    <h:inputText id="newFullName" value="#{user.current.fullName}" />
+                    
+                    <h:outputLabel value="#{res['user.jobTitle']}" />
+                    <h:inputText id="newJobTitle" value="#{user.current.jobTitle}" />
+                    
+                    <h:panelGroup />
+                    <h:panelGroup>
+                        <a4j:commandButton value="#{res['save']}" action="#{user.create()}" 
+                                           render="table" execute="newPane"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('newPane')}.hide();}" />
+                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('newPane')}.hide();
+                                           return false;" />
+                    </h:panelGroup>
+                </h:panelGrid>
+            </rich:popupPanel>
+            
+            
+            <rich:popupPanel header="Detalle de Usuario" id="editPane" 
                              domElementAttachment="parent" autosized="true" >
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('editPane')}.hide(); return false;">
@@ -102,28 +138,28 @@
                     <h:outputLabel value="#{res['user.email']}" />
                     <h:panelGroup>
                         <h:outputText value="#{user.current.email}" rendered="#{!user.edit}" />
-                        <h:inputText id="email" value="#{user.current.email}" rendered="#{user.edit}" />
+                        <h:inputText id="editEmail" value="#{user.current.email}" rendered="#{user.edit}" />
                     </h:panelGroup>
                     <h:panelGroup />
                     
                     <h:outputLabel value="#{res['user.fullName']}" />
                     <h:panelGroup>
                         <h:outputText value="#{user.current.fullName}" rendered="#{!user.edit}" />
-                        <h:inputText value="#{user.current.fullName}" rendered="#{user.edit}" />
+                        <h:inputText id="editFullName" value="#{user.current.fullName}" rendered="#{user.edit}" />
                     </h:panelGroup>
                     <h:panelGroup />
                     
                     <h:outputLabel value="#{res['user.jobTitle']}" />
                     <h:panelGroup>
                         <h:outputText value="#{user.current.jobTitle}" rendered="#{!user.edit}" />
-                        <h:inputText value="#{user.current.jobTitle}" rendered="#{user.edit}" />
+                        <h:inputText id="editJobTitle" value="#{user.current.jobTitle}" rendered="#{user.edit}" />
                     </h:panelGroup>
                     <h:panelGroup />
                     
                     <h:outputLabel value="#{res['user.enable']}" />
                     <h:panelGroup>
                         <h:outputText value="#{user.current.isEnabled ? res['yes'] : res['no']}" rendered="#{!user.edit}" />
-                        <h:selectBooleanCheckbox value="#{user.current.isEnabled}" rendered="#{user.edit}" />
+                        <h:selectBooleanCheckbox id="editEnable" value="#{user.current.isEnabled}" rendered="#{user.edit}" />
                     </h:panelGroup>
                     <h:panelGroup />
                     
@@ -141,7 +177,7 @@
                     
                     <h:panelGroup />
                     <h:panelGroup>
-                        <a4j:commandButton value="#{res['update']}" action="#{user.store}" render="table" execute="editPane"
+                        <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}"
                                            rendered="#{user.edit}" />
                         <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide();

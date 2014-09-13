@@ -26,12 +26,16 @@ public class UserController extends CrudController {
     public void create() throws CayenneRuntimeException {
         parameters = new HashMap<>();
         
+        user.setIsEnabled(true);
         user.setCreationDate(new Date());
         user.setModificationDate(new Date());
         
         //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));
 
-        createObject(user, false);
+        //TRUE porque es un nuevo objeto (no se deriva de otro)
+        //TRUE porque es un nuevo objeto (no se deriva de otro)
+        //TRUE porque es un nuevo objeto (no se deriva de otro)
+        createObject(user, true);
     }
     
     public void update() throws IllegalArgumentException, CayenneRuntimeException {
