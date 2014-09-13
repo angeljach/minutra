@@ -4,7 +4,6 @@ import com.jach.minutra.controller.UserController;
 import com.jach.minutra.model.UserModel;
 import com.jach.minutra.model.Users;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,7 +13,7 @@ import javax.faces.event.ValueChangeEvent;
  *
  * @author jach
  */
-@ManagedBean(name = "userTest")
+@ManagedBean(name = "user")
 @ViewScoped
 public class UserTestBean implements Serializable {
     
@@ -22,8 +21,7 @@ public class UserTestBean implements Serializable {
     private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
     private List<Users> items = null;
     
-    private int currentCarIndex;
-    private Users editedCar;
+    private Users current;
     private int page = 1;
 
     private int clientRows;
@@ -38,11 +36,11 @@ public class UserTestBean implements Serializable {
     }
 
     public void remove() {
-        (new UserController(editedCar)).delete();
+        (new UserController(current)).delete();
     }
 
     public void store() {
-        (new UserController(editedCar)).update();
+        (new UserController(current)).update();
         this.items = modelUser.getUserList();
     }
     
@@ -53,21 +51,12 @@ public class UserTestBean implements Serializable {
         return items;
     }
 
-
-    public int getCurrentCarIndex() {
-        return currentCarIndex;
+    public Users getCurrent() {
+        return current;
     }
 
-    public void setCurrentCarIndex(int currentCarIndex) {
-        this.currentCarIndex = currentCarIndex;
-    }
-
-    public Users getEditedCar() {
-        return editedCar;
-    }
-
-    public void setEditedCar(Users editedCar) {
-        this.editedCar = editedCar;
+    public void setCurrent(Users current) {
+        this.current = current;
     }
 
     public int getPage() {

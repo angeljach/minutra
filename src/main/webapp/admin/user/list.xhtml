@@ -12,64 +12,66 @@
             border: none;
             }
         </h:outputStylesheet>
+        
         <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        
         <h:form id="form">
-            <rich:dataTable value="#{userTest.items}" var="car" iterationStatusVar="it" id="table" rows="15">
-                <rich:column>
+            <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
+                <rich:column rendered="false">
                     <f:facet name="header">#</f:facet>
                         #{it.index}
                 </rich:column>
                 <rich:column>
                     <f:facet name="header">#{res['user.userName']}</f:facet>
-                    <h:outputText value="#{car.userName}" />
+                    <h:outputText value="#{item.userName}" />
                 </rich:column>
                 <rich:column>
                     <f:facet name="header">#{res['user.email']}</f:facet>
-                    <h:outputText value="#{car.email}" />
+                    <h:outputText value="#{item.email}" />
                 </rich:column>
                 <rich:column>
                     <f:facet name="header">#{res['user.fullName']}</f:facet>
-                    <h:outputText value="#{car.fullName}" />
+                    <h:outputText value="#{item.fullName}" />
                 </rich:column>
                 <rich:column>
                     <f:facet name="header">#{res['user.jobTitle']}</f:facet>
-                    <h:outputText value="#{car.jobTitle}" />
+                    <h:outputText value="#{item.jobTitle}" />
                 </rich:column>
                 <rich:column>
                         <f:facet name="header">#{res['user.enable']}</f:facet>
-                        #{car.isEnabled ? 'Si' : 'No'}
+                        #{item.isEnabled ? 'Si' : 'No'}
                     </rich:column>
                 <rich:column>
                     <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
                                      oncomplete="#{rich:component('confirmPane')}.show()">
                         <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
-                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
+                        <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
                                      oncomplete="#{rich:component('editPane')}.show()">
                         <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
-                        <!--a4j:param value="# {it.index}" assignTo="# {userTest.currentCarIndex}" /-->
-                        <f:setPropertyActionListener target="#{userTest.editedCar}" value="#{car}" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
+                        <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
                     </a4j:commandLink>
                 </rich:column>
                 <f:facet name="footer">
-                    <rich:dataScroller page="#{userTest.page}" />
+                    <rich:dataScroller page="#{user.page}" />
                 </f:facet>
             </rich:dataTable>
 
-            <a4j:jsFunction name="remove" action="#{userTest.remove}" render="table" execute="@this"
+            <a4j:jsFunction name="remove" action="#{user.remove}" render="table" execute="@this"
                             oncomplete="#{rich:component('confirmPane')}.hide();" />
 
             <rich:popupPanel id="statPane" autosized="true">
                 <h:graphicImage library="images" name="wait.gif" alt="ai" />
-                Please wait...
+                #{res['wait']}
             </rich:popupPanel>
 
             <rich:popupPanel id="confirmPane" autosized="true">
                 Are you sure you want to delete the row?
-                <a4j:commandButton value="Cancel" onclick="#{rich:component('confirmPane')}.hide();
+                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('confirmPane')}.hide();
                         return false;" />
-                <a4j:commandButton value="Delete" onclick="remove();
+                <a4j:commandButton value="#{res['delete']}" onclick="remove();
                         return false;" />
             </rich:popupPanel>
 
@@ -77,23 +79,23 @@
                              domElementAttachment="parent" width="400" height="170">
                 <h:panelGrid columns="3" id="editGrid">
                     <h:outputLabel value="#{res['user.userName']}" />
-                    <h:outputText value="#{userTest.editedCar.userName}" />
+                    <h:outputText value="#{user.current.userName}" />
                     <h:panelGroup />
                     <h:outputLabel value="#{res['user.email']}" />
-                    <h:outputText value="#{userTest.editedCar.email}" />
+                    <h:outputText value="#{user.current.email}" />
                     <h:panelGroup />
                     <h:outputLabel value="#{res['user.fullName']}" />
-                    <h:inputText value="#{userTest.editedCar.fullName}" />
+                    <h:inputText value="#{user.current.fullName}" />
                     <h:panelGroup />
                     <h:outputLabel value="#{res['user.jobTitle']}" />
-                    <h:inputText value="#{userTest.editedCar.jobTitle}" />
+                    <h:inputText value="#{user.current.jobTitle}" />
                     <h:panelGroup />
                     <h:outputLabel value="#{res['user.enable']}" />
-                    <h:selectBooleanCheckbox value="#{userTest.editedCar.isEnabled}" />
+                    <h:selectBooleanCheckbox value="#{user.current.isEnabled}" />
                 </h:panelGrid>
-                <a4j:commandButton value="Store" action="#{userTest.store}" render="table" execute="editPane"
+                <a4j:commandButton value="#{res['update']}" action="#{user.store}" render="table" execute="editPane"
                                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" />
-                <a4j:commandButton value="Cancel" onclick="#{rich:component('editPane')}.hide();
+                <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide();
                         return false;" />
             </rich:popupPanel>
         </h:form>
