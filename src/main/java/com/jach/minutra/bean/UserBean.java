@@ -15,7 +15,7 @@ import javax.faces.event.ValueChangeEvent;
  */
 @ManagedBean(name = "user")
 @ViewScoped
-public class UserTestBean implements Serializable {
+public class UserBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
