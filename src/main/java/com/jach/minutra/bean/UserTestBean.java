@@ -26,10 +26,9 @@ public class UserTestBean implements Serializable {
 
     private int clientRows;
     
-    
-    
     private final UserModel modelUser = new UserModel();
     
+    private boolean edit = false;
 
     public void switchAjaxLoading(ValueChangeEvent event) {
         this.clientRows = (Boolean) event.getNewValue() ? CLIENT_ROWS_IN_AJAX_MODE : 0;
@@ -59,6 +58,14 @@ public class UserTestBean implements Serializable {
         this.current = current;
     }
 
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
     public int getPage() {
         return page;
     }
