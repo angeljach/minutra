@@ -26,7 +26,7 @@ public class UserModel implements Serializable {
     public List<Users> getUserList() {
         LOGGER.trace("Retriving user list.");
         SelectQuery sel = new SelectQuery(Users.class);
-        sel.addOrdering(new Ordering(Users.FULL_NAME_PROPERTY, SortOrder.ASCENDING));
+        sel.addOrdering(new Ordering(Users.USER_NAME_PROPERTY, SortOrder.ASCENDING));
         return (List<Users>) context.performQuery(sel);
     }
     
