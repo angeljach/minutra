@@ -3,6 +3,7 @@ package com.jach.minutra.bean;
 import com.jach.minutra.model.MinuteModel;
 import com.jach.minutra.model.Minutes;
 import com.jach.minutra.persistence.Crud;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -15,81 +16,46 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean(name = "minute")
 @ViewScoped
-public class MinuteBean extends CrudBean implements Crud {
+public class MinuteBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
+    
     private Minutes current;
     private List<Minutes> items;
 
     private int page = 1;
 
+    private final MinuteModel modelMinute = new MinuteModel();
+    
+    private boolean edit = false;
+    
     private static final Logger LOGGER = Logger.getLogger(MinuteBean.class);
 
-    public MinuteBean() {
-        super("Minuta");
-        //this.init();
-    }
     
     @PostConstruct
     private void init() {
         LOGGER.trace("Getting minutes from PostConstruct");
-        MinuteModel userM = new MinuteModel();
-        this.items = userM.getMinuteList();
+        this.items = modelMinute.getMinuteList();
     }
     
-    @Override
-    protected void executeUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void prepareCreate() {
+        current = new Minutes();
     }
-
-    @Override
-    protected void executeCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void executeDestroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void executeInit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String prepareEdit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String cancelUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String prepareCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String cancelCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void destroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+//    public void create() {
+//        (new MinutesController(current)).create();
+//    }
+//
+//    public void remove() {
+//        (new MinutesController(current)).delete();
+//    }
+//
+//    public void update() {
+//        (new MinutesController(current)).update();
+//        this.items = modelMinute.getMinuteList();
+//    }
+    
     
     
     //---|| Getters and Setters
@@ -101,6 +67,18 @@ public class MinuteBean extends CrudBean implements Crud {
         this.current = current;
     }
     
+    public List<Minutes> getItems() {
+        return items;
+    }
+    
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
     public int getPage() {
         return page;
     }
@@ -109,12 +87,4 @@ public class MinuteBean extends CrudBean implements Crud {
         this.page = page;
     }
 
-    public List<Minutes> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Minutes> items) {
-        this.items = items;
-    }
-    
 }

@@ -1,78 +1,83 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
-    <h:head>
-        Minutas
-    </h:head>
-    <h:body>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        
+<ui:composition template="/resources/templates/interior.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
+    <ui:define name="title">#{res['app.title']} - #{res['app.minutes.title']}</ui:define>
+    <ui:define name="head">#{res['app.minutes.title']}</ui:define>
+    <ui:define name="body">
         <h:outputStylesheet>
-            .rf-dt{
-            //width:400px;
-            }
-            .acent{
-            text-align: center;
+            a.no-decor>img {
+            border: none;
             }
         </h:outputStylesheet>
         
-        <h:form id="frmListUser">
-            <h:panelGrid columnClasses="acent">
-                <rich:dataScroller for="table" maxPages="5" />
-                <rich:dataTable value="#{minute.items}" var="item" iterationStatusVar="it" 
-                                id="table" rows="15" style="text-align: left;">
-                    <rich:column>
-                        <f:facet name="header">#{res['minute.author']}</f:facet>
-                        #{item.toUsers.fullName}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['minute.title']}</f:facet>
-                        #{item.title}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['minute.location']}</f:facet>
-                        #{item.location}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['minute.fromDate']}</f:facet>
-                        <h:outputText value="#{item.fromDate}" >
-                            <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                        </h:outputText>
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">#{res['minute.toDate']}</f:facet>
-                        <h:outputText value="#{item.toDate}" >
-                            <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                        </h:outputText>
-                    </rich:column>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        
+        <h:form id="frmListMinutes">
+            <rich:dataTable value="#{minute.items}" var="item" iterationStatusVar="it" id="table" rows="15">
+                <f:facet name="header">
+                    <a4j:commandLink styleClass="no-decor" render="newGrid" execute="@this"
+                                     action="#{minute.prepareCreate()}"
+                                     oncomplete="#{rich:component('newPane')}.show()">
+                        <h:graphicImage library="images/icons" name="create_doc.gif" alt="#{res['nuevo']}" />
+                    </a4j:commandLink>
+                </f:facet>
+                <rich:column rendered="false">
+                    <f:facet name="header">#</f:facet>
+                        #{it.index}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['minute.title']}</f:facet>
+                    #{item.title}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['minute.location']}</f:facet>
+                    #{item.location}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['minute.author']}</f:facet>
+                    #{item.toUsers.fullName}
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['minute.fromDate']}</f:facet>
+                    <h:outputText value="#{item.fromDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">#{res['minute.toDate']}</f:facet>
+                    <h:outputText value="#{item.toDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                </rich:column>
 
-                    <rich:column>
-                        <a4j:commandLink styleClass="no-decor" render="viewGrid" execute="@this"
-                            oncomplete="#{rich:component('viewPane')}.show()">
-                            <h:graphicImage library="images/icons" name="open.gif" alt="view" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                            <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
-                        </a4j:commandLink>
-                        <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
-                            oncomplete="#{rich:component('editPane')}.show()">
-                            <h:graphicImage library="images/icons" name="edit.gif" alt="edit" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                            <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
-                        </a4j:commandLink>
-                        <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
-                            oncomplete="#{rich:component('confirmPane')}.show()">
-                            <h:graphicImage library="images/icons" name="delete.gif" alt="delete" />
-                            <!--a4j:param value="# {it.index}" assignTo="# {carsBean.currentCarIndex}" /-->
-                        </a4j:commandLink>
-                    </rich:column>
-                </rich:dataTable>
-                <rich:dataScroller for="table" maxPages="5" />
-            </h:panelGrid>
-                
+                <rich:column>
+                    <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
+                                     oncomplete="#{rich:component('editPane')}.show()">
+                        <h:graphicImage library="images/icons" name="open.gif" alt="#{res['view']}" />
+                        <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
+                        <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
+                        <f:setPropertyActionListener value="false" target="#{minute.edit}" />
+                    </a4j:commandLink>
+                    <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
+                                     oncomplete="#{rich:component('editPane')}.show()">
+                        <h:graphicImage library="images/icons" name="edit.gif" alt="#{res['edit']}" />
+                        <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
+                        <f:setPropertyActionListener value="true" target="#{minute.edit}" />
+                    </a4j:commandLink>
+                    <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
+                                     oncomplete="#{rich:component('confirmPane')}.show()">
+                        <h:graphicImage library="images/icons" name="delete.gif" alt="#{res['delete']}" />
+                    </a4j:commandLink>
+                </rich:column>
+                <rich:dataScroller page="#{minute.page}" />
+                <f:facet name="footer">
+                    <rich:dataScroller page="#{minute.page}" />
+                </f:facet>
+            </rich:dataTable>
             
             <a4j:jsFunction name="remove" action="#{minute.destroy()}" render="table" execute="@this"
-                oncomplete="#{rich:component('confirmPane')}.hide();" />
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
 
             <rich:popupPanel id="statPane" autosized="true">
                 <h:graphicImage library="images" name="wait.gif" alt="Wait" />
@@ -85,102 +90,135 @@
                 <a4j:commandButton value="#{res['delete']}" onclick="remove(); return false;" />
             </rich:popupPanel>
             
-            <rich:popupPanel header="Usuarios" id="viewPane" modal="false" autosized="true" resizeable="false">
+            <rich:popupPanel header="#{res['minute.panelTitle.new']}" id="newPane" 
+                             domElementAttachment="parent" autosized="true" >
                 <f:facet name="controls">
-                    <h:outputLink value="#" onclick="#{rich:component('viewPane')}.hide(); return false;">
+                    <h:outputLink value="#" onclick="#{rich:component('newPane')}.hide();
+                        return false;">
                         X
                     </h:outputLink>
                 </f:facet>
-                <h:panelGrid columns="2" id="viewGrid">
-                    <h:outputLabel value="#{res['minute.author']}" />
-                    <h:outputText value="#{minute.current.toUsers.fullName}" />
-                    <h:outputLabel value="#{res['minute.title']}" />
-                    <h:outputText value="#{minute.current.title}" />
-                    <h:outputLabel value="#{res['minute.location']}" />
-                    <h:outputText value="#{minute.current.location}" />
-                    <h:outputLabel value="#{res['minute.fromDate']}" />
-                    <h:outputText value="#{minute.current.fromDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:outputLabel value="#{res['minute.toDate']}" />
-                    <h:outputText value="#{minute.current.toDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:outputLabel value="#{res['minute.agenda']}" />
-                    <h:outputText value="#{minute.current.agenda}" escape="false" />
-                    <h:outputLabel value="#{res['minute.detail']}" />
-                    <h:outputText value="#{minute.current.detail}" escape="false" />
-                    <h:outputLabel value="#{res['minute.users']}" />
-                    <rich:dataTable value="#{minute.current.minuteMembersArray}" var="user">
-                        <rich:column>
-                            #{user.toUsers.fullName}
-                        </rich:column>
-                    </rich:dataTable>
-                    <h:outputLabel value="#{res['minute.documents']}" />
-                    <rich:dataTable value="#{minute.current.minuteDocumentsArray}" var="doc">
-                        <rich:column>
-                            #{doc.name}
-                        </rich:column>
-                    </rich:dataTable>
-                    <h:outputLabel value="#{res['minute.tasks']}" />
-                    <rich:dataTable value="#{minute.current.minuteTasksArray}" var="task">
-                        <rich:column>
-                            #{task.detail}
-                        </rich:column>
-                    </rich:dataTable>
+                <h:panelGrid columns="2" id="newGrid">
+                    <h:outputLabel class="control" value="#{res['minute.title']}:" />
+                    <h:inputText id="newTitle" value="#{minute.current.title}" />
                     
+                    <h:outputLabel class="control" value="#{res['minute.location']}:" />
+                    <h:inputText id="newLocation" value="#{minute.current.location}" />
                     
+                    <h:outputLabel class="control" value="#{res['minute.author']}:" />
                     
-                    <h:outputLabel value="#{res['creationDate']}" />
-                    <h:outputText value="#{minute.current.creationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:outputLabel value="#{res['modificationDate']}" />
-                    <h:outputText value="#{minute.current.modificationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
+                    <h:outputLabel class="control" value="#{res['minute.fromDate']}:" />
+                    <rich:calendar id="newFromDate" value="#{minute.current.fromDate}" 
+                                   popup="true" locale="es" showApplyButton="false"
+                                   datePattern="#{res['pattern.date.timestamp']}" 
+                                   style="width:200px">
+                    </rich:calendar>
+                    
+                    <h:outputLabel class="control" value="#{res['minute.toDate']}:" />
+                    <rich:calendar id="newToDate" value="#{minute.current.toDate}" 
+                                   popup="true" locale="es" showApplyButton="false"
+                                   datePattern="#{res['pattern.date.timestamp']}" 
+                                   style="width:200px">
+                    </rich:calendar>
+                    
+                    <h:outputLabel class="control" value="#{res['minute.agenda']}:" />
+                    <rich:editor id="newAgenda" toolbar="basic" value="#{minute.current.agenda}" >
+                    </rich:editor>
+                    
+                    <h:outputLabel class="control" value="#{res['minute.detail']}:" />
+                    <rich:editor id="newDetail" toolbar="basic" value="#{minute.current.detail}" >
+                    </rich:editor>
+
+                    <h:panelGroup />
+                    <h:panelGroup>
+                        <a4j:commandButton value="#{res['save']}" action="#{minute.create()}" 
+                                           render="table" execute="newPane"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('newPane')}.hide();}" />
+                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('newPane')}.hide();
+                        return false;" />
+                    </h:panelGroup>
                 </h:panelGrid>
             </rich:popupPanel>
             
-            <rich:popupPanel header="Editar Usuarios" id="editPane" domElementAttachment="parent" width="600" height="300">
+            <rich:popupPanel header="#{res['minute.panelTitle.view']}" id="editPane" 
+                             domElementAttachment="parent" autosized="true">
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('editPane')}.hide();
+                        return false;">
+                        X
+                    </h:outputLink>
+                </f:facet>
                 <h:panelGrid columns="3" id="editGrid">
-                    <h:outputLabel value="#{res['minute.author']}" />
+                    <h:outputLabel class="control" value="#{res['minute.author']}:" />
                     <h:outputText value="#{minute.current.toUsers.fullName}" />
                     <h:panelGroup />
 
-                    <h:outputLabel value="#{res['minute.title']}" />
-                    <h:inputText value="#{minute.current.title}" />
+                    <h:outputLabel class="control" value="#{res['minute.title']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.title}" rendered="#{!minute.edit}" />
+                        <h:inputText value="#{minute.current.title}" rendered="#{minute.edit}" />
+                    </h:panelGroup>
                     <h:panelGroup />
                     
-                    <h:outputLabel value="#{res['minute.location']}" />
-                    <h:inputText value="#{minute.current.location}" />
+                    <h:outputLabel class="control" value="#{res['minute.location']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.location}" rendered="#{!minute.edit}" />
+                        <h:inputText value="#{minute.current.location}" rendered="#{minute.edit}" />
+                    </h:panelGroup>
                     <h:panelGroup />
                     
-                    <h:outputLabel value="#{res['minute.fromDate']}" />
-                    <rich:calendar value="#{minute.current.fromDate}" popup="true" locale="es"
-                                   datePattern="#{res['pattern.date.timestamp']}" 
-                                   showApplyButton="false" 
-                                   style="width:200px">
-                    </rich:calendar>
+                    <h:outputLabel class="control" value="#{res['minute.fromDate']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.fromDate}" rendered="#{!minute.edit}" >
+                            <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                        </h:outputText>
+                        <rich:calendar value="#{minute.current.fromDate}" 
+                                       popup="true" locale="es" showApplyButton="false"
+                                       datePattern="#{res['pattern.date.timestamp']}" 
+                                       style="width:200px" rendered="#{minute.edit}">
+                        </rich:calendar>
+                    </h:panelGroup>
                     <h:panelGroup />
                     
-                    <h:outputLabel value="#{res['minute.toDate']}" />
-                    <rich:calendar value="#{minute.current.toDate}" popup="true" locale="es"
-                                   datePattern="#{res['pattern.date.timestamp']}" 
-                                   showApplyButton="false" 
-                                   style="width:200px">
-                    </rich:calendar>
+                    <h:outputLabel class="control" value="#{res['minute.toDate']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.toDate}" rendered="#{!minute.edit}" >
+                            <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                        </h:outputText>
+                        <rich:calendar value="#{minute.current.toDate}" 
+                                       popup="true" locale="es" showApplyButton="false"
+                                       datePattern="#{res['pattern.date.timestamp']}" 
+                                       style="width:200px" rendered="#{minute.edit}">
+                        </rich:calendar>
+                    </h:panelGroup>
                     <h:panelGroup />
                     
-                    <h:outputLabel value="#{res['minute.agenda']}" />
-                    <rich:editor id="editorAgenda" toolbar="basic" value="#{minute.current.agenda}" >
-                    </rich:editor>
+                    <h:outputLabel class="control" value="#{res['minute.agenda']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.agenda}" escape="false" rendered="#{!minute.edit}" />
+                        <rich:editor toolbar="basic" value="#{minute.current.agenda}" rendered="#{minute.edit}" />
+                    </h:panelGroup>
                     <h:panelGroup />
                     
-                    <h:outputLabel value="#{res['minute.detail']}" />
-                    <rich:editor id="editorDetail" toolbar="basic" value="#{minute.current.detail}" >
-                    </rich:editor>
+                    <h:outputLabel class="control" value="#{res['minute.detail']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{minute.current.detail}" escape="false" rendered="#{!minute.edit}" />
+                        <rich:editor toolbar="basic" value="#{minute.current.detail}" rendered="#{minute.edit}" />
+                    </h:panelGroup>
                     <h:panelGroup />
+                    
+                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
+                    <h:outputText value="#{minute.current.creationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
+                    <h:outputText value="#{minute.current.modificationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                    <h:panelGroup />
+                    
                 </h:panelGrid>
                 <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
                     oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" />
@@ -212,10 +250,6 @@
             
             -->
             
-            
-            
-            
         </h:form>
-    </h:body>
-        
-</html>
+    </ui:define>
+</ui:composition>

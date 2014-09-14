@@ -8,15 +8,30 @@ root {
 }
 
 #wrapper {
-  width: 960px;
-  margin: 0 auto;
-  text-align:left;
-  position:relative;
+    width: 960px;
+    margin: 0 auto;
+    text-align:left;
+    position:relative;
 }
 
 #login {
-  width: 320px;
-  margin: 0 auto;
-  text-align:left;
-  position:relative;
+    width: 320px;
+    margin: 0 auto;
+    text-align:left;
+    position:relative;
+}
+
+
+label.control {
+    font-weight: bold;
+}
+
+
+td.headerLogo {
+    width: 50%;
+}
+td.headerTitle {
+    width: 50%;
+    border-width: 0pt;
+    text-align: right;
 }

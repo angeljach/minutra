@@ -18,22 +18,15 @@ import javax.faces.event.ValueChangeEvent;
 public class UserBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
-    private List<Users> items = null;
     
+    private List<Users> items = null;
     private Users current;
     private int page = 1;
 
-    private int clientRows;
-    
     private final UserModel modelUser = new UserModel();
     
     private boolean edit = false;
 
-    public void switchAjaxLoading(ValueChangeEvent event) {
-        this.clientRows = (Boolean) event.getNewValue() ? CLIENT_ROWS_IN_AJAX_MODE : 0;
-    }
-    
     public void prepareCreate() {
         current = new Users();
     }
@@ -52,6 +45,7 @@ public class UserBean implements Serializable {
     }
     
     public List<Users> getItems() {
+        //TODO Meter esto en un @PreConstruct
         synchronized (this) {
             this.items = modelUser.getUserList();
         }
@@ -80,14 +74,6 @@ public class UserBean implements Serializable {
 
     public void setPage(int page) {
         this.page = page;
-    }
-
-    public int getClientRows() {
-        return clientRows;
-    }
-
-    public void setClientRows(int clientRows) {
-        this.clientRows = clientRows;
     }
     
 }
