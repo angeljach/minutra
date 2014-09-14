@@ -1,12 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
-    <h:head>
-        Administración de Usuarios
-    </h:head>
-    <h:body>
-
+<ui:composition template="/resources/templates/interior.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
+    <ui:define name="title">#{res['app.title']} - #{res['app.users.title']}</ui:define>
+    <ui:define name="head">#{res['app.users.title']}</ui:define>
+    <ui:define name="body">
         <h:outputStylesheet>
             a.no-decor>img {
             border: none;
@@ -190,6 +188,8 @@
                         
             </rich:popupPanel>
         </h:form>
-    </h:body>
+    </ui:define>
+</ui:composition>
 
-</html>
+
+        

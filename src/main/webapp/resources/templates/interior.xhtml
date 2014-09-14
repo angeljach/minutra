@@ -4,33 +4,32 @@
       xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
     <h:head>
-        <title>TODO supply a title</title>
+        <title><ui:insert name="title">Minutra</ui:insert></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <h:outputStylesheet name="css/default.css" />
         <style>
-            a.last{border-right:none;}
-            .content{clear:both;padding:3px;padding-left:5px;}
-            .content{padding-left:1em;}
-            .content{font-size:0.9em;}
-            .content{background:#f5f9fa;padding:0.8em;}
-            .content{background:#FFFFFF;}
-            .content{padding:0.8em 0.8em 0.8em 0.1em;}
-            .content{padding-bottom:0.7em;}
-            .content{float:left;width:100%;}
-            .content{margin-left:-10px;}
-            .content p{border:1px solid #5382a1;padding:5px;text-align:center;}
+            td.headerLogo {
+                width: 50%;
+            }
+            td.headerTitle {
+                width: 50%;
+                border-width: 0pt;
+                text-align: right;
+            }
         </style>
         
         <div id="wrapper">
+            <h:panelGrid columns="2" width="100%" cellpadding="0" cellspacing="0"
+                        columnClasses="headerLogo,headerTitle">
+                <h:outputText value="LOGOTIPO" />
+                <h:outputText value="#{res['app.title']}" />
+            </h:panelGrid>
             <h:panelGrid id="headerGrid" columns="1" width="100%" cellpadding="0" cellspacing="0">
-                <div class="content">
-                    <a href="https://java.net/people/login?original_uri=http://weblogs.java.net/blog/mriem/archive/2012/09/01/jsf-tip-1-introduction-jsf-validators">Login</a><a href="https://java.net/people/new">Join Now</a><a href="https://java.net/projects/help/pages/Home" class="last">Help</a>
-                </div>
                 <h:panelGroup>
                     <div id="header">
-                        <h2><ui:insert name="head">Minutra</ui:insert></h2>
+                        <h2><ui:insert name="head">#{res['app.title']}</ui:insert></h2>
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
@@ -50,7 +49,7 @@
 
                         <h:panelGroup>
                             <div align="center">
-                                <h:graphicImage alt="Contactanos" value="/resources/images/bag_mail_50x50.png" 
+                                <h:graphicImage alt="Contáctanos" value="/resources/images/bag_mail_50x50.png" 
                                                 styleClass="img50x50" />
                             </div>
                         </h:panelGroup>
