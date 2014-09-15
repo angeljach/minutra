@@ -14,7 +14,8 @@
         <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
         
         <h:form id="frmListMinutes">
-            <rich:dataTable value="#{minute.items}" var="item" iterationStatusVar="it" id="table" rows="15">
+            <rich:dataTable value="#{minute.items}" var="item" iterationStatusVar="it" 
+                            id="table" rows="15" style="width: 100%;">
                 <f:facet name="header">
                     <a4j:commandLink styleClass="no-decor" render="newGrid" execute="@this"
                                      action="#{minute.prepareCreate()}"
@@ -60,7 +61,8 @@
                         <f:setPropertyActionListener value="false" target="#{minute.edit}" />
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
-                                     oncomplete="#{rich:component('editPane')}.show()">
+                                     oncomplete="#{rich:component('editPane')}.show()"
+                                     action="#{minute.prepareUpdate()}">
                         <h:graphicImage library="images/icons" name="edit.gif" alt="#{res['edit']}" />
                         <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
                         <f:setPropertyActionListener value="true" target="#{minute.edit}" />
@@ -210,6 +212,17 @@
                         <h:outputText value="#{minute.current.detail}" escape="false" rendered="#{!minute.edit}" />
                         <rich:editor toolbar="basic" value="#{minute.current.detail}" rendered="#{minute.edit}" />
                     </h:panelGroup>
+                    <h:panelGroup />
+                    
+                    <h:outputLabel class="control" value="#{res['minute.users']}:" />
+                    <rich:pickList value="#{minute.selectedMembers}"
+                                   sourceCaption="#{res['minute.users.available']}" 
+                                   targetCaption="#{res['minute.users.selected']}" 
+                                   listWidth="165px" listHeight="100px" orderable="true">
+                        <f:selectItems value="#{minute.userList}" var="itemUsr" itemValue="#{itemUsr}" itemLabel="#{itemUsr.fullName}" />
+                        <f:converter converterId="userConverter" />
+                    </rich:pickList>
+                    <h:panelGroup />
                     <h:panelGroup />
                     
                     <h:outputLabel class="control" value="#{res['creationDate']}:" />

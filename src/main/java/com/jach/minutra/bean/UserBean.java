@@ -49,13 +49,17 @@ public class UserBean implements Serializable {
         current = null;
     }
 
-    public void remove() {
-        (new UserController(current)).delete();
+    public void prepareUpdate() {
+        
     }
-
+    
     public void update() {
         (new UserController(current)).update();
         this.items = modelUser.getUserList(true);
+    }
+    
+    public void remove() {
+        (new UserController(current)).delete();
     }
     
     public List<Users> getItems() {

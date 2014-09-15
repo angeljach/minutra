@@ -27,6 +27,8 @@ public class MinuteBean implements Serializable {
     
     private List<Users> userList;
     private Users selectedUser;
+    
+    private List<Users> selectedMembers;
 
     private int page = 1;
 
@@ -60,8 +62,12 @@ public class MinuteBean implements Serializable {
         (new MinuteController(current)).delete();
     }
 
+    public void prepareUpdate() {
+        selectedMembers = modelMinute.getUsedUsersFromSummary(current);
+    }
+    
     public void update() {
-        (new MinuteController(current)).update();
+        (new MinuteController(current)).update(selectedMembers);
         this.items = modelMinute.getMinuteList();
     }
     
@@ -71,8 +77,8 @@ public class MinuteBean implements Serializable {
     }
     
     public void addDocument() {
-        TAL VEZ DEBO MODIFICAR EL MODELO (CREAR MODELO DOCUMENTS)
-        + minute_documents ---> documents
+//        TAL VEZ DEBO MODIFICAR EL MODELO (CREAR MODELO DOCUMENTS)
+//        + minute_documents ---> documents
     }
     
     public void addTask() {
@@ -121,6 +127,14 @@ public class MinuteBean implements Serializable {
 
     public void setSelectedUser(Users selectedUser) {
         this.selectedUser = selectedUser;
+    }
+
+    public List<Users> getSelectedMembers() {
+        return selectedMembers;
+    }
+
+    public void setSelectedMembers(List<Users> selectedMembers) {
+        this.selectedMembers = selectedMembers;
     }
 
 }

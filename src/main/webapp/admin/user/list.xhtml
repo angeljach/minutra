@@ -14,7 +14,8 @@
         <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
 
         <h:form id="frmListUsers">
-            <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" id="table" rows="15">
+            <rich:dataTable value="#{user.items}" var="item" iterationStatusVar="it" 
+                            id="table" rows="15" style="width: 100%;">
                 <f:facet name="header">
                     <a4j:commandLink styleClass="no-decor" render="newGrid" execute="@this"
                                      action="#{user.prepareCreate()}"
@@ -55,7 +56,8 @@
                         <f:setPropertyActionListener value="false" target="#{user.edit}" />
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
-                                     oncomplete="#{rich:component('editPane')}.show()">
+                                     oncomplete="#{rich:component('editPane')}.show()"
+                                     action="#{user.prepareUpdate()}">
                         <h:graphicImage library="images/icons" name="edit.gif" alt="#{res['edit']}" />
                         <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
                         <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
