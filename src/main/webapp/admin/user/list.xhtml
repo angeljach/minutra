@@ -49,7 +49,7 @@
                 <rich:column>
                     <a4j:commandLink styleClass="no-decor" render="editGrid" execute="@this"
                                      oncomplete="#{rich:component('editPane')}.show()">
-                        <h:graphicImage library="images/icons" name="open.gif" alt="#{res['view']}" />
+                        <h:graphicImage library="images/icons" name="view.png" alt="#{res['view']}" />
                         <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
                         <f:setPropertyActionListener target="#{user.current}" value="#{item}" />
                         <f:setPropertyActionListener value="false" target="#{user.edit}" />
@@ -113,7 +113,8 @@
                         <a4j:commandButton value="#{res['save']}" action="#{user.create()}" 
                                            render="table" execute="newPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('newPane')}.hide();}" />
-                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('newPane')}.hide();
+                        <a4j:commandButton value="#{res['cancel']}" action="#{user.cancelCreate()}" 
+                                           onclick="#{rich:component('newPane')}.hide();
                         return false;" />
                     </h:panelGroup>
                 </h:panelGrid>

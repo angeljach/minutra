@@ -5,9 +5,10 @@ import com.jach.minutra.model.UserModel;
 import com.jach.minutra.model.Users;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,6 +27,15 @@ public class UserBean implements Serializable {
     private final UserModel modelUser = new UserModel();
     
     private boolean edit = false;
+    
+    private static final Logger LOGGER = Logger.getLogger(UserBean.class);
+
+    
+    @PostConstruct
+    private void init() {
+        LOGGER.trace("Getting users from PostConstruct");
+        this.items = modelUser.getUserList(true);
+    }
 
     public void prepareCreate() {
         current = new Users();
@@ -34,6 +44,10 @@ public class UserBean implements Serializable {
     public void create() {
         (new UserController(current)).create();
     }
+    
+    public void cancelCreate() {
+        current = null;
+    }
 
     public void remove() {
         (new UserController(current)).delete();
@@ -41,14 +55,13 @@ public class UserBean implements Serializable {
 
     public void update() {
         (new UserController(current)).update();
-        this.items = modelUser.getUserList();
+        this.items = modelUser.getUserList(true);
     }
     
     public List<Users> getItems() {
-        //TODO Meter esto en un @PreConstruct
-        synchronized (this) {
-            this.items = modelUser.getUserList();
-        }
+//        synchronized (this) {
+//            this.items = modelUser.getUserList();
+//        }
         return items;
     }
 

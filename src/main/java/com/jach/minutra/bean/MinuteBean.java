@@ -1,8 +1,10 @@
 package com.jach.minutra.bean;
 
+import com.jach.minutra.controller.MinuteController;
 import com.jach.minutra.model.MinuteModel;
 import com.jach.minutra.model.Minutes;
-import com.jach.minutra.persistence.Crud;
+import com.jach.minutra.model.UserModel;
+import com.jach.minutra.model.Users;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,10 +21,12 @@ import org.apache.log4j.Logger;
 public class MinuteBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final int CLIENT_ROWS_IN_AJAX_MODE = 15;
     
     private Minutes current;
     private List<Minutes> items;
+    
+    private List<Users> userList;
+    private Users selectedUser;
 
     private int page = 1;
 
@@ -35,26 +39,31 @@ public class MinuteBean implements Serializable {
     
     @PostConstruct
     private void init() {
-        LOGGER.trace("Getting minutes from PostConstruct");
+        LOGGER.trace("Getting minutes and users from PostConstruct");
         this.items = modelMinute.getMinuteList();
+        this.userList = (new UserModel()).getUserList(false);
     }
     
     public void prepareCreate() {
         current = new Minutes();
     }
     
-//    public void create() {
-//        (new MinutesController(current)).create();
-//    }
-//
-//    public void remove() {
-//        (new MinutesController(current)).delete();
-//    }
-//
-//    public void update() {
-//        (new MinutesController(current)).update();
-//        this.items = modelMinute.getMinuteList();
-//    }
+    public void create() {
+        (new MinuteController(current)).create();
+    }
+    
+    public void cancelCreate() {
+        current = null;
+    }
+
+    public void remove() {
+        (new MinuteController(current)).delete();
+    }
+
+    public void update() {
+        (new MinuteController(current)).update();
+        this.items = modelMinute.getMinuteList();
+    }
     
     
     
@@ -85,6 +94,18 @@ public class MinuteBean implements Serializable {
  
     public void setPage(int page) {
         this.page = page;
+    }
+
+    public List<Users> getUserList() {
+        return userList;
+    }
+
+    public Users getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(Users selectedUser) {
+        this.selectedUser = selectedUser;
     }
 
 }

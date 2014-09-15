@@ -36,7 +36,7 @@ public class UserConverter implements Converter {
     private Map<String, Users> getMapWithNameAsKey() {
         UserModel dbUtil = new UserModel();
         Map<String, Users> varMap = new HashMap<>();
-        dbUtil.getUserList().stream().forEach((user) -> {
+        dbUtil.getUserList(true).stream().forEach((user) -> {
             varMap.put(user.getFullName(), user);
         });
         return varMap;
