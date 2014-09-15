@@ -66,6 +66,21 @@ public class MinuteBean implements Serializable {
     }
     
     
+    public void addMember() {
+        
+    }
+    
+    public void addDocument() {
+        TAL VEZ DEBO MODIFICAR EL MODELO (CREAR MODELO DOCUMENTS)
+        + minute_documents ---> documents
+    }
+    
+    public void addTask() {
+        
+    }
+    
+    
+    
     
     //---|| Getters and Setters
     public Minutes getCurrent() {
