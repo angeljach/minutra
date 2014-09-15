@@ -215,13 +215,23 @@
                     <h:panelGroup />
                     
                     <h:outputLabel class="control" value="#{res['minute.users']}:" />
-                    <rich:pickList value="#{minute.selectedMembers}"
-                                   sourceCaption="#{res['minute.users.available']}" 
-                                   targetCaption="#{res['minute.users.selected']}" 
-                                   listWidth="165px" listHeight="100px" orderable="true">
-                        <f:selectItems value="#{minute.userList}" var="itemUsr" itemValue="#{itemUsr}" itemLabel="#{itemUsr.fullName}" />
-                        <f:converter converterId="userConverter" />
-                    </rich:pickList>
+                    <h:panelGroup>
+                        <h:dataTable value="#{minute.current.minuteMembersArray}" var="mma">
+                            <h:column>
+                                #{mma.toUsers.fullName}
+                            </h:column>
+                        </h:dataTable>
+                        <rich:pickList value="#{minute.selectedMembers}"
+                                       sourceCaption="#{res['minute.users.available']}" 
+                                       targetCaption="#{res['minute.users.selected']}" 
+                                       listWidth="165px" listHeight="100px" orderable="true"
+                                       rendered="#{minute.edit}">
+                            <f:selectItems value="#{minute.userList}" var="itemUsr" itemValue="#{itemUsr}" itemLabel="#{itemUsr.fullName}" />
+                            <f:converter converterId="userConverter" />
+                        </rich:pickList>
+                    </h:panelGroup>
+                    <h:panelGroup />
+                    <h:panelGroup />
                     <h:panelGroup />
                     <h:panelGroup />
                     

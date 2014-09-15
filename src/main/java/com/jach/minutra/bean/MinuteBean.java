@@ -71,11 +71,6 @@ public class MinuteBean implements Serializable {
         this.items = modelMinute.getMinuteList();
     }
     
-    
-    public void addMember() {
-        
-    }
-    
     public void addDocument() {
 //        TAL VEZ DEBO MODIFICAR EL MODELO (CREAR MODELO DOCUMENTS)
 //        + minute_documents ---> documents
