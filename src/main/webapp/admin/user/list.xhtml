@@ -18,7 +18,7 @@
                             id="table" rows="15" style="width: 100%;">
                 <f:facet name="header">
                     <a4j:commandLink styleClass="no-decor" render="newGrid" execute="@this"
-                                     action="#{user.prepareCreate()}"
+                                     action="#{user.prepareCreate()}" title="#{res['new']}"
                                      oncomplete="#{rich:component('newPane')}.show()">
                         <h:graphicImage library="images/icons" name="create_doc.gif" alt="#{res['nuevo']}" />
                     </a4j:commandLink>

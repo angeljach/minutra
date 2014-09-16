@@ -51,7 +51,7 @@ public class MinuteBean implements Serializable {
     }
     
     public void create() {
-        (new MinuteController(current)).create();
+        (new MinuteController(current)).create(selectedUser);
     }
     
     public void cancelCreate() {

@@ -26,6 +26,7 @@ public class MinuteController extends CrudController {
     private Map<Key, Object> parameters;
     
     private enum Key {
+        AUTHOR
     }
     
     private static final Logger LOGGER = Logger.getLogger(MinuteController.class);
@@ -35,15 +36,15 @@ public class MinuteController extends CrudController {
         this.minute = minute;
     }
     
-    public void create() throws CayenneRuntimeException {
+    public void create(Users author) throws CayenneRuntimeException {
         parameters = new HashMap<>();
         
         Date now = new Date();
         minute.setCreationDate(now);
         minute.setModificationDate(now);
-        
-        //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));
 
+        parameters.put(Key.AUTHOR, author);
+        
         //TRUE porque es un nuevo objeto (no se deriva de otro)
         //TRUE porque es un nuevo objeto (no se deriva de otro)
         //TRUE porque es un nuevo objeto (no se deriva de otro)
@@ -55,7 +56,8 @@ public class MinuteController extends CrudController {
         
         minute.setModificationDate(new Date());
         
-        //parameters.put(Key.USER_ROLE, AiDbObjectFromString.getUserRolesObjectFromString(getContext(), userRole));        
+        parameters.put(Key.AUTHOR, minute.getToUsers());
+        
         updateObject(minute);
         
         List<Users> currUsersList = (new MinuteModel()).getUsedUsersFromSummary(minute);
@@ -71,7 +73,7 @@ public class MinuteController extends CrudController {
     
     @Override
     protected void createEntry() {
-        //user.setToUserRoles((UserRoles) parameters.get(Key.USER_ROLE));
+        minute.setToUsers((Users) parameters.get(Key.AUTHOR));
     }
     
     private void addUsersToMinute(List<Users> newUsersList, List<Users> currUsersList) {
