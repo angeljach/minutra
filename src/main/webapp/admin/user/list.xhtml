@@ -89,107 +89,14 @@
                 <a4j:commandButton value="#{res['delete']}" onclick="remove();return false;" />
             </rich:popupPanel>
 
-            <rich:popupPanel header="#{res['user.panelTitle.new']}" id="newPane" 
-                             domElementAttachment="parent" autosized="true" >
-                <f:facet name="controls">
-                    <h:outputLink value="#" onclick="#{rich:component('newPane')}.hide();
-                        return false;">
-                        X
-                    </h:outputLink>
-                </f:facet>
-                <h:panelGrid columns="2" id="newGrid">
-                    <h:outputLabel class="control" value="#{res['user.userName']}:" />
-                    <h:inputText id="newUserName" value="#{user.current.userName}" />
-
-                    <h:outputLabel class="control" value="#{res['user.email']}:" />
-                    <h:inputText id="newEmail" value="#{user.current.email}" />
-
-                    <h:outputLabel class="control" value="#{res['user.fullName']}:" />
-                    <h:inputText id="newFullName" value="#{user.current.fullName}" />
-
-                    <h:outputLabel class="control" value="#{res['user.jobTitle']}:" />
-                    <h:inputText id="newJobTitle" value="#{user.current.jobTitle}" />
-
-                    <h:panelGroup />
-                    <h:panelGroup>
-                        <a4j:commandButton value="#{res['save']}" action="#{user.create()}" 
-                                           render="table" execute="newPane"
-                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('newPane')}.hide();}" />
-                        <a4j:commandButton value="#{res['cancel']}" action="#{user.cancelCreate()}" 
-                                           onclick="#{rich:component('newPane')}.hide();
-                        return false;" />
-                    </h:panelGroup>
-                </h:panelGrid>
-            </rich:popupPanel>
-
-
-            <rich:popupPanel header="#{res['user.panelTitle.view']}" id="editPane" 
-                             domElementAttachment="parent" autosized="true" >
-                <f:facet name="controls">
-                    <h:outputLink value="#" onclick="#{rich:component('editPane')}.hide();
-                        return false;">
-                        X
-                    </h:outputLink>
-                </f:facet>
-                <h:panelGrid columns="3" id="editGrid">
-                    <h:outputLabel class="control" value="#{res['user.userName']}:" />
-                    <h:outputText value="#{user.current.userName}" />
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['user.email']}:" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.email}" rendered="#{!user.edit}" />
-                        <h:inputText id="editEmail" value="#{user.current.email}" rendered="#{user.edit}" />
-                    </h:panelGroup>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['user.fullName']}:" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.fullName}" rendered="#{!user.edit}" />
-                        <h:inputText id="editFullName" value="#{user.current.fullName}" rendered="#{user.edit}" />
-                    </h:panelGroup>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['user.jobTitle']}:" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.jobTitle}" rendered="#{!user.edit}" />
-                        <h:inputText id="editJobTitle" value="#{user.current.jobTitle}" rendered="#{user.edit}" />
-                    </h:panelGroup>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['user.enable']}:" />
-                    <h:panelGroup>
-                        <h:outputText value="#{user.current.isEnabled ? res['yes'] : res['no']}" rendered="#{!user.edit}" />
-                        <h:selectBooleanCheckbox id="editEnable" value="#{user.current.isEnabled}" rendered="#{user.edit}" />
-                    </h:panelGroup>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
-                    <h:outputText value="#{user.current.creationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
-                    <h:outputText value="#{user.current.modificationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-
-                    <h:panelGroup />
-                    <h:panelGroup>
-                        <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
-                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}"
-                                           rendered="#{user.edit}" />
-                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide();
-                        return false;" 
-                                           rendered="#{user.edit}"/>
-                    </h:panelGroup>
-                    <h:panelGroup />
-
-                </h:panelGrid>
-
-            </rich:popupPanel>
+            <ui:insert name="insertNewPane" >
+                <ui:include src="/admin/user/_new.xhtml" />
+            </ui:insert>
+            
+            <ui:insert name="insertEditPane" >
+                <ui:include src="/admin/user/_edit.xhtml" />
+            </ui:insert>
+            
         </h:form>
     </ui:define>
 </ui:composition>

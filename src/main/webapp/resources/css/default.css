@@ -35,3 +35,8 @@ td.headerTitle {
     border-width: 0pt;
     text-align: right;
 }
+
+.img16x16 {
+    width: 16px;
+    height: 16px;
+}

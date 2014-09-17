@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:a4j="http://richfaces.org/a4j"      xmlns:rich="http://richfaces.org/rich">
+    <body>
+        <ui:composition>
+            <rich:popupPanel header="#{res['user.panelTitle.view']}" id="editPane" 
+                             domElementAttachment="parent" autosized="true" >
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('editPane')}.hide();
+                        return false;">
+                        X
+                    </h:outputLink>
+                </f:facet>
+                <h:panelGrid columns="3" id="editGrid">
+                    <h:outputLabel class="control" value="#{res['user.userName']}:" />
+                    <h:outputText value="#{user.current.userName}" />
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['user.email']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.email}" rendered="#{!user.edit}" />
+                        <h:inputText id="editEmail" value="#{user.current.email}" rendered="#{user.edit}" />
+                    </h:panelGroup>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['user.fullName']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.fullName}" rendered="#{!user.edit}" />
+                        <h:inputText id="editFullName" value="#{user.current.fullName}" rendered="#{user.edit}" />
+                    </h:panelGroup>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['user.jobTitle']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.jobTitle}" rendered="#{!user.edit}" />
+                        <h:inputText id="editJobTitle" value="#{user.current.jobTitle}" rendered="#{user.edit}" />
+                    </h:panelGroup>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['user.enable']}:" />
+                    <h:panelGroup>
+                        <h:outputText value="#{user.current.isEnabled ? res['yes'] : res['no']}" rendered="#{!user.edit}" />
+                        <h:selectBooleanCheckbox id="editEnable" value="#{user.current.isEnabled}" rendered="#{user.edit}" />
+                    </h:panelGroup>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
+                    <h:outputText value="#{user.current.creationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                    <h:panelGroup />
+
+                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
+                    <h:outputText value="#{user.current.modificationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                    <h:panelGroup />
+
+                    <h:panelGroup />
+                    <h:panelGroup>
+                        <a4j:commandButton value="#{res['update']}" action="#{user.update()}" render="table" execute="editPane"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}"
+                                           rendered="#{user.edit}" />
+                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide();
+                        return false;" 
+                                           rendered="#{user.edit}"/>
+                    </h:panelGroup>
+                    <h:panelGroup />
+
+                </h:panelGrid>
+
+            </rich:popupPanel>
+        </ui:composition>
+    </body>
+</html>
