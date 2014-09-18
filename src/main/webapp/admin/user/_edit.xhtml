@@ -37,18 +37,6 @@
                     <h:selectBooleanCheckbox id="inpEnable" value="#{user.current.isEnabled}" />
                     <h:panelGroup />
 
-                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
-                    <h:outputText value="#{user.current.creationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-
-                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
-                    <h:outputText value="#{user.current.modificationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:panelGroup />
-
                     <h:panelGroup />
                     <h:panelGroup>
                         <a4j:commandButton value="#{res['save']}" action="#{user.create()}" 
