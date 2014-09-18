@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"    xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:rich="http://richfaces.org/rich">
+    <body>
+        <ui:composition>
+            <rich:popupPanel header="#{res['user.panelTitle.view']}" id="showPane" 
+                             domElementAttachment="parent" autosized="true" >
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('showPane')}.hide();
+                        return false;">
+                        X
+                    </h:outputLink>
+                </f:facet>
+                <h:panelGrid columns="2" id="showGrid">
+                    <h:outputLabel class="control" value="#{res['user.userName']}:" />
+                    <h:outputText value="#{user.current.userName}" />
+
+                    <h:outputLabel class="control" value="#{res['user.email']}:" />
+                    <h:outputText value="#{user.current.email}" />
+
+                    <h:outputLabel class="control" value="#{res['user.fullName']}:" />
+                    <h:outputText value="#{user.current.fullName}" />
+
+                    <h:outputLabel class="control" value="#{res['user.jobTitle']}:" />
+                    <h:outputText value="#{user.current.jobTitle}" />
+
+                    <h:outputLabel class="control" value="#{res['user.enable']}:" />
+                    <h:outputText value="#{user.current.isEnabled ? res['yes'] : res['no']}" />
+
+                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
+                    <h:outputText value="#{user.current.creationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+
+                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
+                    <h:outputText value="#{user.current.modificationDate}" >
+                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
+                    </h:outputText>
+                </h:panelGrid>
+            </rich:popupPanel>
+        </ui:composition>
+    </body>
+</html>

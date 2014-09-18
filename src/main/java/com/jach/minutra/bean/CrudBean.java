@@ -11,7 +11,7 @@ import org.apache.cayenne.DeleteDenyException;
  */
 public abstract class CrudBean {
 
-    private String objectName;
+    private final String objectName;
 
     public CrudBean(String objectName) {
         this.objectName = objectName;
