@@ -51,7 +51,8 @@
                                            render="table" execute="editPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}"
                                            rendered="#{user.edit}" />
-                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide(); return false;" 
+                        <a4j:commandButton value="#{res['cancel']}" action="#{user.cancelUpdate()}" 
+                                           onclick="#{rich:component('editPane')}.hide(); return false;" 
                                            rendered="#{user.edit}" />
                     </h:panelGroup>
                     <h:panelGroup />

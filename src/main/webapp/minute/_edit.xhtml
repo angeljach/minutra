@@ -6,7 +6,7 @@
     <body>
         <ui:composition>
             <rich:popupPanel header="#{minute.edit ? res['minute.panelTitle.view'] : res['minute.panelTitle.new']}" id="editPane" 
-                             domElementAttachment="parent" autosized="true">
+                             domElementAttachment="parent" autosized="true" maxHeight="600">
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('editPane')}.hide();
                         return false;">
@@ -49,16 +49,39 @@
                     <h:outputLabel class="control" value="#{res['minute.detail']}:" />
                     <rich:editor toolbar="basic" value="#{minute.current.detail}" />
                     <h:panelGroup />
+                </h:panelGrid>
+                <h:panelGrid id="editGridUsers" columns="1" width="95%">
+                    <rich:panel>
+                        <f:facet name="header">
+                            #{res['minute.users']}
+                        </f:facet>
+                        <rich:pickList value="#{minute.selectedMembers}"
+                                       sourceCaption="#{res['minute.users.available']}" 
+                                       targetCaption="#{res['minute.users.selected']}" 
+                                       listHeight="100px">
+                            <f:selectItems value="#{minute.userList}" var="itemUsr" itemValue="#{itemUsr}" itemLabel="#{itemUsr.fullName}" />
+                            <f:converter converterId="userConverter" />
+                        </rich:pickList>
+                    </rich:panel>
+                        
                     
-                    <h:panelGroup />
+                    <rich:panel>
+                        <f:facet name="header">
+                            #{res['minute.agreements']}
+                        </f:facet>
+                    </rich:panel>
+                </h:panelGrid>
+                
+                <h:panelGrid id="editGridControls" columns="1" style="text-align: right;" width="100%">
                     <h:panelGroup>
                         <a4j:commandButton value="#{res['update']}" action="#{minute.update()}" 
                                            render="table" execute="editPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" 
                                            rendered="#{minute.edit}" />
-                        <a4j:commandButton value="#{res['cancel']}" onclick="#{rich:component('editPane')}.hide(); return false;" 
+                        <a4j:commandButton value="#{res['cancel']}" action="#{minute.cancelUpdate()}" 
+                                           onclick="#{rich:component('editPane')}.hide(); return false;" 
                                            rendered="#{minute.edit}" />
-                        
+
                         <a4j:commandButton value="#{res['save']}" action="#{minute.create()}" 
                                            render="table" execute="editPane"
                                            oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('editPane')}.hide();}" 
@@ -67,19 +90,6 @@
                                            onclick="#{rich:component('editPane')}.hide(); return false;" 
                                            rendered="#{!minute.edit}" />
                     </h:panelGroup>
-                    <h:panelGroup />
-                    <h:panelGroup />
-                    <h:panelGroup />
-                    <h:panelGroup />
-                </h:panelGrid>
-                <h:panelGrid columns="1" id="editGridUsers">
-                    <rich:pickList value="#{minute.selectedMembers}"
-                                   sourceCaption="#{res['minute.users.available']}" 
-                                   targetCaption="#{res['minute.users.selected']}" 
-                                   listHeight="100px">
-                        <f:selectItems value="#{minute.userList}" var="itemUsr" itemValue="#{itemUsr}" itemLabel="#{itemUsr.fullName}" />
-                        <f:converter converterId="userConverter" />
-                    </rich:pickList>
                 </h:panelGrid>
             </rich:popupPanel>
         </ui:composition> 

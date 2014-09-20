@@ -58,6 +58,10 @@ public class UserBean implements Serializable {
         this.items = modelUser.getUserList(true);
     }
     
+    public void cancelUpdate() {
+        current = null;
+    }
+    
     public void remove() {
         (new UserController(current)).delete();
     }

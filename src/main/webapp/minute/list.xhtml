@@ -18,10 +18,11 @@
             <rich:dataTable value="#{minute.items}" var="item" iterationStatusVar="it" 
                             id="table" rows="15" style="width: 100%;">
                 <f:facet name="header">
-                    <a4j:commandLink styleClass="no-decor" render="editGrid,editGridUsers" execute="@this"
+                    <a4j:commandLink styleClass="no-decor" render="editGrid,editGridUsers,editGridControls" execute="@this"
                                      action="#{minute.prepareCreate()}" title="#{res['new']}"
                                      oncomplete="#{rich:component('editPane')}.show()">
                         <h:graphicImage library="images/icons" name="create_doc.gif" alt="#{res['nuevo']}" />
+                        <f:setPropertyActionListener value="false" target="#{minute.edit}" />
                     </a4j:commandLink>
                 </f:facet>
                 <rich:column rendered="false">
@@ -59,9 +60,8 @@
                         <h:graphicImage library="images/icons" name="view.png" alt="#{res['view']}" />
                         <!--a4j:param value="# {it.index}" assignTo="# {user.currentCarIndex}" /-->
                         <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
-                        <f:setPropertyActionListener value="false" target="#{minute.edit}" />
                     </a4j:commandLink>
-                    <a4j:commandLink styleClass="no-decor" render="editGrid,editGridUsers" execute="@this"
+                    <a4j:commandLink styleClass="no-decor" render="editGrid,editGridUsers,editGridControls" execute="@this"
                                      oncomplete="#{rich:component('editPane')}.show()"
                                      action="#{minute.prepareUpdate()}">
                         <h:graphicImage library="images/icons" name="edit.gif" alt="#{res['edit']}" />
@@ -70,7 +70,7 @@
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" render="taskGrid" execute="@this"
                                      oncomplete="#{rich:component('taskPane')}.show()">
-                        <h:graphicImage library="images/icons" name="verify.gif" alt="#{res['minute.tasks.new']}" />
+                        <h:graphicImage library="images/icons" name="verify.gif" alt="#{res['minute.agreements.new']}" />
                         <f:setPropertyActionListener target="#{minute.current}" value="#{item}" />
                     </a4j:commandLink>
                     <a4j:commandLink styleClass="no-decor" execute="@this" render="@none"
