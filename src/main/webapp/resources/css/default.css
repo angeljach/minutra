@@ -40,3 +40,15 @@ td.headerTitle {
     width: 16px;
     height: 16px;
 }
+
+.grdTopAlign td {
+    vertical-align: top;
+}
+
+.bodyPanelScroll {
+    height: 150px;
+    overflow: auto;
+    width: 90%;
+}
+
+td.percent_50 { width: 50%; vertical-align: top; }

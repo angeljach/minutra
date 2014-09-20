@@ -6,14 +6,14 @@
     <body>
         <ui:composition>
             <rich:popupPanel header="#{res['minute.panelTitle.view']}" id="showPane" 
-                             domElementAttachment="parent" autosized="true">
+                             domElementAttachment="parent" autosized="true" maxHeight="400">
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('showPane')}.hide();
                         return false;">
                         X
                     </h:outputLink>
                 </f:facet>
-                <h:panelGrid columns="4" id="showGrid">
+                <h:panelGrid columns="4" id="showGridInfo">
                     <h:outputLabel class="control" value="#{res['minute.title']}:" />
                     <h:outputText value="#{minute.current.title}" />
                     <h:outputLabel class="control" value="#{res['minute.location']}:" />
@@ -33,25 +33,31 @@
                         <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
                     </h:outputText>
                     
+                    
+                </h:panelGrid>
+                
+                <h:panelGrid id="showGridAgenda" columns="1" width="100%">
                     <h:outputLabel class="control" value="#{res['minute.agenda']}:" />
                     <h:outputText value="#{minute.current.agenda}" escape="false" />
                     <h:outputLabel class="control" value="#{res['minute.detail']}:" />
                     <h:outputText value="#{minute.current.detail}" escape="false" />
                     
-                    <h:outputLabel class="control" value="#{res['creationDate']}:" />
-                    <h:outputText value="#{minute.current.creationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
-                    <h:outputLabel class="control" value="#{res['modificationDate']}:" />
-                    <h:outputText value="#{minute.current.modificationDate}" >
-                        <f:convertDateTime pattern="#{res['pattern.date.timestamp']}" timeZone="#{res['timezone']}" />
-                    </h:outputText>
+                    
                 </h:panelGrid>
-                <h:dataTable id="showTblUsers" value="#{minute.current.minuteMembersArray}" var="mma" >
-                    <h:column>
-                        #{mma.toUsers.fullName}
-                    </h:column>
-                </h:dataTable>
+                
+                <h:panelGrid columns="2" id="showGridLists" class="grdTopAlign" 
+                             columnClasses="percent_50,percent_50" width="100%">
+                    <rich:panel header="Lista de Asistentes">
+                        <rich:list id="showListUsers" value="#{minute.current.minuteMembersArray}" 
+                                   var="mma" type="unordered" style="padding: 0px; margin: 2px;">
+                            <h:outputText value="#{mma.toUsers.fullName}" />
+                        </rich:list>
+                    </rich:panel>
+                    <rich:panel header="Notas y Acuerdos">
+                        <h:outputText value="TEST" />
+                    </rich:panel>
+                </h:panelGrid>
+                    
             </rich:popupPanel>
         </ui:composition> 
     </body>
