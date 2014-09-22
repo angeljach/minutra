@@ -67,8 +67,26 @@
                     
                     <rich:panel>
                         <f:facet name="header">
-                            #{res['minute.agreements']}
+                            #{res['minute.tasks']}
                         </f:facet>
+                        
+                        [BOTÓN - AGREGAR ACUERDO]
+                        
+                        <rich:dataTable value="#{minute.current.minuteTasksArray}" var="itemTask" iterationStatusVar="itTask" 
+                                        id="tblEdtTasks" rows="15" style="width: 100%;">
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['user.userName']}" /></f:facet>
+                                <h:outputText value="#{itemTask.toUsers.fullName}" />
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['minute.tasks.detail']}" /></f:facet>
+                                <h:outputText value="#{itemTask.detail}" />
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['minute.tasks.done']}" /></f:facet>
+                                <h:outputText value="#{itemTask.isDone ? res['yes'] : res['no'] }" />
+                            </rich:column>
+                        </rich:dataTable>
                     </rich:panel>
                 </h:panelGrid>
                 

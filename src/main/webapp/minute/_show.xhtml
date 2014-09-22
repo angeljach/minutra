@@ -47,14 +47,28 @@
                 
                 <h:panelGrid columns="2" id="showGridLists" class="grdTopAlign" 
                              columnClasses="percent_50,percent_50" width="100%">
-                    <rich:panel header="Lista de Asistentes">
+                    <rich:panel header="#{res['minute.users']}">
                         <rich:list id="showListUsers" value="#{minute.current.minuteMembersArray}" 
                                    var="mma" type="unordered" style="padding: 0px; margin: 2px;">
                             <h:outputText value="#{mma.toUsers.fullName}" />
                         </rich:list>
                     </rich:panel>
-                    <rich:panel header="Notas y Acuerdos">
-                        <h:outputText value="TEST" />
+                    <rich:panel header="#{res['minute.tasks']}">
+                        <rich:dataTable value="#{minute.current.minuteTasksArray}" var="itemTask" iterationStatusVar="itTask" 
+                                        id="tblShowTasks" rows="15" style="width: 100%;">
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['user.userName']}" /></f:facet>
+                                <h:outputText value="#{itemTask.toUsers.fullName}" />
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['minute.tasks.detail']}" /></f:facet>
+                                <h:outputText value="#{itemTask.detail}" />
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header"><h:outputText value="#{res['minute.tasks.done']}" /></f:facet>
+                                <h:outputText value="#{itemTask.isDone ? res['yes'] : res['no'] }" />
+                            </rich:column>
+                        </rich:dataTable>
                     </rich:panel>
                 </h:panelGrid>
                     
